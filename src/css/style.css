@@ -1,0 +1,484 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+body {
+  font-family: "Poppins", sans-serif;
+  overflow-x: hidden !important;
+  background-color: #faf2f0;
+}
+
+button {
+  justify-content: center;
+  cursor: pointer;
+}
+
+ul{
+  list-style: none;
+}
+
+.btn-delivery {
+  width: 18vw;
+  gap: 16px;
+  background-color: #c2282d;
+  color: #fdeded;
+  border: none;
+  outline: none;
+  font-size: 20px;
+  display: flex;
+  align-items: center;
+  padding: 10px 20px;
+  border-radius: 28px;
+  transition: all 0.3s ease;
+  box-shadow: 0 8px 8px 0 rgba(0, 0, 0, 0.25);
+
+  &:hover {
+    background-color: #a01f23;
+    transform: scale(1.05);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+  }
+}
+
+header {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  padding: 0 4vw;
+  align-items: center;
+  position: absolute;
+  top: 0;
+  /* position: sticky;
+  top: 0;
+  background-color: #faf2f0;
+  z-index: 1000; */
+
+  nav ul {
+    align-items: center;
+    display: flex;
+    gap: 0 4vw;
+    margin-right: 4vw;
+    list-style: none;
+    letter-spacing: 16%;
+
+    a {
+      text-decoration: none;
+      color: rgb(0, 0, 0);
+      font-size: 20px;
+    }
+
+    button {
+      background-color: #faba01;
+      color: #000000;
+      letter-spacing: 16%;
+      border: none;
+      outline: none;
+      font-size: 20px;
+      display: flex;
+      padding: 10px 20px;
+      border-radius: 24px;
+      transition: all 0.3s ease;
+
+      &:hover {
+        background-color: #f5b200;
+        transform: scale(1.05);
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+      }
+    }
+  }
+}
+
+.hero {
+  display: flex;
+  justify-content: space-between;
+  align-items: top;
+  padding: 8.8vw 2vw 0 4.2vw;
+
+  .esquerda {
+    margin-top: 4vw;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 48px;
+
+    .textos {
+      width: 100%;
+      h1 {
+        font-size: 3.5vw;
+        color: #faba01;
+        font-weight: 800;
+        -webkit-text-stroke-width: 2px;
+        -webkit-text-stroke-color: #000000;
+        letter-spacing: 8%;
+      }
+
+      p {
+        width: 72%;
+        margin-top: 1.6vw;
+        font-size: 20px;
+        color: #603c24;
+        letter-spacing: 12%;
+      }
+    }
+
+    .botoes {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+
+      .reserva-hero {
+        width: 44%;
+        gap: 16px;
+        background-color: #c2282d;
+        color: #fdeded;
+        border: none;
+        outline: none;
+        font-size: 20px;
+        display: flex;
+        align-items: center;
+        padding: 10px 20px;
+        border-radius: 28px;
+        transition: all 0.3s ease;
+        box-shadow: 0 8px 8px 0 rgba(0, 0, 0, 0.25);
+
+        &:hover {
+          background-color: #a01f23;
+          transform: scale(1.05);
+          box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+        }
+      }
+    }
+  }
+
+  .direita {
+    width: 100%;
+    display: flex;
+    justify-content: right;
+    position: relative;
+
+    .pizzaHero {
+      width: 100%;
+    }
+
+    .folhaHero {
+      width: 6%;
+      position: absolute;
+      top: 0;
+      right: 50px;
+    }
+  }
+}
+
+.sessaoCardapio {
+  margin-top: 8vw;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 6vw 0;
+  gap: 3.4vw;
+
+  h2 {
+    font-size: 48px;
+    color: #393331;
+    letter-spacing: 18%;
+  }
+
+  .menu {
+    display: flex;
+    gap: 48px;
+    margin-bottom: 1.6vw;
+
+    button {
+      width: 14.8vw;
+      gap: 16px;
+      background-color: #fae9d4;
+      color: #5d4731;
+      border: 1px solid;
+      border-color: #5d47312f;
+      outline: none;
+      font-size: 20px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 1.2vw;
+      border-radius: 28px;
+      transition: all 0.3s ease;
+      box-shadow: 0 8px 8px 0 rgba(0, 0, 0, 0.25);
+
+      &:hover {
+        background-color: #c2282d;
+        color: #ffffff;
+        transform: scale(1.05);
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.25);
+      }
+    }
+  }
+
+  .cards {
+    padding: 0 4vw;
+    display: flex;
+    gap: 64px;
+
+    .card {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      border: 4.4px solid #892326;
+      border-radius: 18px;
+      padding: 16px;
+      gap: 20px;
+
+      img {
+        width: 100%;
+        border-radius: 16px;
+      }
+
+      h3 {
+        font-size: 20px;
+        color: #393331;
+        letter-spacing: 12%;
+      }
+
+      p {
+        text-align: center;
+        font-size: 16px;
+        color: #5d4731;
+        letter-spacing: 12%;
+      }
+    }
+  }
+
+  .botoesCaradapio {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    align-items: center;
+
+    .btn-cardapio {
+      width: 28vw;
+      gap: 16px;
+      background-color: #c2282d;
+      color: #fdeded;
+      border: none;
+      outline: none;
+      font-size: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 10px 20px;
+      border-radius: 28px;
+      transition: all 0.3s ease;
+      box-shadow: 0 8px 8px 0 rgba(0, 0, 0, 0.25);
+
+      &:hover {
+        background-color: #a01f23;
+        transform: scale(1.05);
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+      }
+    }
+  }
+}
+
+.sessaoReserva {
+  background-color: #090909;
+  background-image: url("../../src/images/sessaoGaleriaBG.webp");
+  background-size: cover;
+  width: 100%;
+  height: 90vh;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  h2 {
+    margin-top: 10vw;
+    font-size: 38px;
+    color: #ffffff;
+    font-weight: 700;
+    letter-spacing: 12%;
+    margin-bottom: 24px;
+  }
+
+  button {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    background-color: transparent;
+    color: #ffffff;
+    border: none;
+    border-bottom: 3.6px solid #ffffff;
+    font-size: 16px;
+    font-weight: 550;
+    letter-spacing: 16%;
+    padding: 10px 20px;
+  }
+}
+
+.sessaoGaleria {
+  background-color: #090909;
+  display: flex;
+  width: 100%;
+  gap: 4vw;
+  padding: 4vw;
+  align-items: center;
+
+  /* Reduce size equally for all three gallery images */
+  .galeriaEsquerda img,
+  .galeriaCentro img,
+  .galeriaDireita img {
+    width: 100%;
+    max-width: 100%;
+    height: auto;
+    display: block;
+    margin: 0 auto;
+  }
+
+  .galeriaEsquerda {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 32px;
+  }
+
+  .galeriaCentro {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 32px;
+  }
+
+  .galeriaDireita {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 32px;
+  }
+}
+
+.sessaoIFood {
+  display: flex;
+  flex-direction: column;
+
+  .conteudoSessao {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 6vw;
+    gap: 2.4vw;
+
+    .heroiIFood {
+      width: 50%;
+      img {
+        width: 100%;
+        height: auto;
+      }
+    }
+
+    .conteudoIFood {
+      width: 60%;
+      display: flex;
+      flex-direction: column;
+      gap: 44px;
+
+      h2 {
+        font-size: 44px;
+        color: #c2282d;
+        letter-spacing: 8%;
+        font-weight: 400;
+      }
+
+      .checksIFood {
+        display: flex;
+        flex-direction: column;
+        gap: 2vw;
+
+        li {
+          display: flex;
+          align-items: center;
+          gap: 16px;
+          font-size: 20px;
+          color: #000000;
+          letter-spacing: 12%;
+        }
+      }
+    }
+  }
+}
+
+footer {
+  width: 100%;
+  background-color: #fae9d4;
+  position: relative;
+
+  .conteudoFooter {
+    background-color: #fae9d4;
+    display: flex;
+    height: 40vh;
+    justify-content: center;
+    align-items: center;
+    padding: 4vw;
+    gap: 10vw;
+
+    .logotipo{
+      display: flex;
+      align-items: center;
+      justify-content: left;
+      width: 20%;
+      gap: 4vw;
+
+      img{
+        width: 16vw;
+        height: 16vw;
+      }
+    }
+
+    .info{
+      display: flex;
+      align-items: top;
+      gap: 8vw;
+
+      .midia{
+        display: flex;
+        flex-direction: column;
+        gap: 2vw;
+
+        h3{
+          font-size: 24px;
+          color: #5d4731;
+          letter-spacing: 12%;
+        }
+
+        .redes{
+          display: flex;
+          gap: 1vw;
+
+          img{
+            width: 3.2vw;
+            height: auto;
+          }
+        }
+      }
+
+      .endereco{
+        display: flex;
+        flex-direction: column;
+        gap: 2vw;
+
+        h3{
+          font-size: 24px;
+          color: #5d4731;
+          letter-spacing: 12%;
+        }
+
+        p{
+          width: 54%;
+          font-size: 16px;
+          color: #5d4731;
+          letter-spacing: 12%;
+        }
+      }
+    }
+  }
+}

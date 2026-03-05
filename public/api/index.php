@@ -6,6 +6,7 @@
  * Todas as requisições AJAX do front-end chegam aqui.
  *
  * Rotas disponíveis:
+ *   GET  /api/?action=horarios-funcionamento
  *   GET  /api/?action=mesas-disponiveis&data=YYYY-MM-DD&qntd_pessoas=N
  *   POST /api/?action=salvar-reserva
  */
@@ -20,6 +21,7 @@ header('X-Frame-Options: DENY');
 $root = dirname(__DIR__, 2); // sobe dois níveis: public/api → raiz do projeto
 
 require_once $root . '/config/Database.php';
+require_once $root . '/app/models/HorarioModel.php';
 require_once $root . '/app/models/MesaModel.php';
 require_once $root . '/app/models/ReservaModel.php';
 require_once $root . '/app/controllers/ReservaController.php';
@@ -29,6 +31,10 @@ $action     = $_GET['action'] ?? '';
 $controller = new ReservaController();
 
 switch ($action) {
+    case 'horarios-funcionamento':
+        $controller->getHorariosFuncionamento();
+        break;
+
     case 'mesas-disponiveis':
         $controller->getMesasDisponiveis();
         break;

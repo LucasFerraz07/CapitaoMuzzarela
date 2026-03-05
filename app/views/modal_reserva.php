@@ -3,8 +3,7 @@
  * app/views/modal_reserva.php
  *
  * View parcial: Modal de Reserva de Mesa.
- * Inclua este arquivo dentro do <body> do seu index.html
- * (renomeado para index.php) ou carregue-o via PHP include.
+ * Inclua este arquivo dentro do <body> via PHP include.
  */
 ?>
 
@@ -58,10 +57,13 @@
             <div class="campo-linha">
                 <div class="campo-grupo">
                     <label for="dataReserva">Data <span class="obrigatorio">*</span></label>
+                    <!-- O Flatpickr substitui o input nativo; type="text" é necessário -->
                     <input
-                        type="date"
+                        type="text"
                         id="dataReserva"
                         name="data_reserva"
+                        placeholder="Selecione a data"
+                        readonly
                         required
                     />
                     <span class="campo-erro" id="erroData"></span>
@@ -73,10 +75,11 @@
                         type="time"
                         id="horarioReserva"
                         name="horario_reserva"
-                        min="11:00"
-                        max="23:00"
+                        disabled
                         required
                     />
+                    <!-- Exibe o intervalo de funcionamento do dia selecionado -->
+                    <span class="campo-info" id="infoHorario"></span>
                     <span class="campo-erro" id="erroHorario"></span>
                 </div>
             </div>

@@ -11,13 +11,50 @@ declare(strict_types=1);
 
 class ReservaController
 {
-    private ReservaModel $reservaModel;
-    private MesaModel    $mesaModel;
+    private ReservaModel  $reservaModel;
+    private MesaModel     $mesaModel;
+    private HorarioModel  $horarioModel;
 
     public function __construct()
     {
         $this->reservaModel = new ReservaModel();
         $this->mesaModel    = new MesaModel();
+        $this->horarioModel = new HorarioModel();
+    }
+
+    // =========================================================================
+    // ACTION: Retorna horários de funcionamento (chamada AJAX ao abrir o modal)
+    // =========================================================================
+
+    /**
+     * Endpoint: GET /api/?action=horarios-funcionamento
+     *
+     * Responde com JSON contendo os horários de todos os dias da semana,
+     * indexados pelo dia_semana_id, para uso no Flatpickr (frontend).
+     *
+     * Exemplo de resposta:
+     * {
+     *   "sucesso": true,
+     *   "horarios": {
+     *     "1": { "nome": "Domingo",   "fechado": true,  "hora_abertura": null,    "hora_fechamento": null },
+     *     "2": { "nome": "Segunda",   "fechado": false, "hora_abertura": "18:00", "hora_fechamento": "23:00" },
+     *     ...
+     *   }
+     * }
+     */
+    public function getHorariosFuncionamento(): void
+    {
+        if ($_SERVER['REQUEST_METHOD'] !== 'GET') {
+            $this->jsonResponse(false, 'Método não permitido.', [], 405);
+            return;
+        }
+
+        try {
+            $horarios = $this->horarioModel->getTodosHorarios();
+            $this->jsonResponse(true, '', ['horarios' => $horarios]);
+        } catch (RuntimeException $e) {
+            $this->jsonResponse(false, $e->getMessage());
+        }
     }
 
     // =========================================================================
@@ -25,19 +62,18 @@ class ReservaController
     // =========================================================================
 
     /**
-     * Endpoint: GET /api/mesas-disponiveis?data=YYYY-MM-DD&qntd_pessoas=N
+     * Endpoint: GET /api/?action=mesas-disponiveis&data=YYYY-MM-DD&qntd_pessoas=N
      *
      * Responde com JSON contendo a lista de mesas disponíveis.
      */
     public function getMesasDisponiveis(): void
     {
-        // Apenas requisições GET são aceitas aqui
         if ($_SERVER['REQUEST_METHOD'] !== 'GET') {
             $this->jsonResponse(false, 'Método não permitido.', [], 405);
             return;
         }
 
-        $data = trim($_GET['data'] ?? '');
+        $data        = trim($_GET['data']         ?? '');
         $qntdPessoas = (int) ($_GET['qntd_pessoas'] ?? 0);
 
         // ── Validação básica ─────────────────────────────────────────────────
@@ -56,6 +92,19 @@ class ReservaController
             return;
         }
 
+        // ── Verifica se o estabelecimento abre na data informada ─────────────
+        $diaSemanaId = $this->getDiaSemanaId($data);
+        $horario     = $this->horarioModel->getHorarioPorDia($diaSemanaId);
+
+        if (!$horario || $horario['fechado'] || empty($horario['hora_abertura'])) {
+            $this->jsonResponse(
+                false,
+                'O estabelecimento não funciona nesta data.',
+                ['fechado' => true]
+            );
+            return;
+        }
+
         // ── Consulta ao Model ────────────────────────────────────────────────
         try {
             $mesas = $this->mesaModel->getMesasDisponiveis($data, $qntdPessoas);
@@ -70,13 +119,12 @@ class ReservaController
     // =========================================================================
 
     /**
-     * Endpoint: POST /api/salvar-reserva
+     * Endpoint: POST /api/?action=salvar-reserva
      *
      * Valida e persiste a reserva. Responde com JSON.
      */
     public function salvarReserva(): void
     {
-        // Apenas POST é aceito
         if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
             $this->jsonResponse(false, 'Método não permitido.', [], 405);
             return;
@@ -128,6 +176,23 @@ class ReservaController
     // =========================================================================
 
     /**
+     * Converte uma data Y-m-d para o dia_semana_id conforme a tabela `dia_semana`.
+     *
+     * Assumimos que os IDs seguem a ordem:
+     *   1 = Domingo, 2 = Segunda, 3 = Terça, 4 = Quarta,
+     *   5 = Quinta,  6 = Sexta,   7 = Sábado
+     * (padrão brasileiro com Domingo como dia 1)
+     *
+     * PHP date('w') retorna: 0=Dom, 1=Seg … 6=Sáb
+     * Portanto: dia_semana_id = date('w') + 1
+     */
+    private function getDiaSemanaId(string $data): int
+    {
+        $dt = new DateTimeImmutable($data);
+        return (int) $dt->format('w') + 1;
+    }
+
+    /**
      * Valida todos os campos da reserva e retorna array de erros.
      *
      * @param  array $dados
@@ -159,15 +224,33 @@ class ReservaController
         } elseif (!$this->validarData($dados['data_reserva'])) {
             $erros[] = 'Data da reserva inválida.';
         } else {
-            // Não permite reservas no passado
             $hoje = new DateTimeImmutable('today');
             $data = new DateTimeImmutable($dados['data_reserva']);
             if ($data < $hoje) {
                 $erros[] = 'A data da reserva não pode ser no passado.';
             }
+
+            // Verifica se o estabelecimento abre nesse dia (camada backend)
+            $diaSemanaId = $this->getDiaSemanaId($dados['data_reserva']);
+            $horario     = $this->horarioModel->getHorarioPorDia($diaSemanaId);
+
+            if (!$horario || $horario['fechado'] || empty($horario['hora_abertura'])) {
+                $erros[] = 'O estabelecimento não funciona na data selecionada.';
+            } else {
+                // Valida se o horário informado está dentro do funcionamento
+                if (!empty($dados['horario_reserva'])) {
+                    $hrReserva  = $dados['horario_reserva'];
+                    $hrAbertura = $horario['hora_abertura'];
+                    $hrFecha    = $horario['hora_fechamento'];
+
+                    if ($hrReserva < $hrAbertura || $hrReserva > $hrFecha) {
+                        $erros[] = "O horário deve ser entre {$hrAbertura} e {$hrFecha}.";
+                    }
+                }
+            }
         }
 
-        // Horário
+        // Horário (formato)
         if (empty($dados['horario_reserva'])) {
             $erros[] = 'Horário da reserva é obrigatório.';
         } elseif (!preg_match('/^([01]\d|2[0-3]):[0-5]\d$/', $dados['horario_reserva'])) {
@@ -190,12 +273,10 @@ class ReservaController
         if ($dados['mesas_id'] < 1) {
             $erros[] = 'Selecione uma mesa disponível.';
         } else {
-            // Verifica se a mesa realmente existe
             $mesa = $this->mesaModel->getById($dados['mesas_id']);
             if (!$mesa) {
                 $erros[] = 'Mesa selecionada não existe.';
             } elseif ($mesa['capacidade'] < $dados['qntd_pessoas']) {
-                // Segurança extra: capacidade da mesa deve comportar o grupo
                 $erros[] = 'A mesa selecionada não comporta a quantidade de pessoas informada.';
             }
         }
@@ -214,11 +295,6 @@ class ReservaController
 
     /**
      * Envia resposta JSON padronizada e encerra a execução.
-     *
-     * @param  bool   $sucesso
-     * @param  string $mensagem
-     * @param  array  $extra     Dados adicionais a incluir no JSON
-     * @param  int    $httpCode  Código HTTP da resposta
      */
     private function jsonResponse(
         bool   $sucesso,

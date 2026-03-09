@@ -1,0 +1,263 @@
+/* ============================================================
+   public/css/adminDashboard.css
+   Estilos do Painel Administrativo — Capitão Muzzarela
+   ============================================================ */
+
+/* ── Variáveis (mesmas do projeto principal) ─────────────── */
+:root {
+    --cm-vermelho:    #c2282d;
+    --cm-vermelho-h:  #a01f23;
+    --cm-amarelo:     #faba01;
+    --cm-amarelo-h:   #f5b200;
+    --cm-escuro:      #1a1a1a;
+    --cm-marrom:      #5d4731;
+    --cm-marrom-cl:   #fae9d4;
+    --cm-fundo:       #faf2f0;
+    --cm-borda:       #e8ddd5;
+    --cm-cinza:       #4a4a4a;
+    --cm-branco:      #ffffff;
+
+    --radius-sm:  8px;
+    --radius-md:  16px;
+    --radius-lg:  28px;
+    --sombra-sm:  0 2px 8px rgba(0, 0, 0, 0.08);
+    --sombra-md:  0 8px 24px rgba(0, 0, 0, 0.12);
+    --trans:      0.3s ease;
+}
+
+/* ── Reset básico ────────────────────────────────────────── */
+*, *::before, *::after {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: "Poppins", sans-serif;
+    background-color: var(--cm-fundo);
+    color: var(--cm-escuro);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+}
+
+/* ── Header ──────────────────────────────────────────────── */
+.admin-header {
+    width: 100%;
+    background-color: var(--cm-branco);
+    border-bottom: 3px solid var(--cm-amarelo);
+    padding: 0 4vw;
+    height: 72px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    box-shadow: var(--sombra-sm);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
+
+.admin-header__marca {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.admin-header__logo {
+    height: 44px;
+    width: auto;
+}
+
+.admin-header__titulo {
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--cm-marrom);
+    letter-spacing: 0.5px;
+}
+
+.admin-header__nav {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+}
+
+.admin-header__usuario {
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: var(--cm-cinza);
+}
+
+.admin-header__logout {
+    padding: 0.5rem 1.25rem;
+    background-color: transparent;
+    border: 2px solid var(--cm-vermelho);
+    border-radius: var(--radius-lg);
+    color: var(--cm-vermelho);
+    font-size: 0.875rem;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    transition: all var(--trans);
+}
+
+.admin-header__logout:hover {
+    background-color: var(--cm-vermelho);
+    color: var(--cm-branco);
+    transform: scale(1.03);
+}
+
+/* ── Main ────────────────────────────────────────────────── */
+.admin-main {
+    flex: 1;
+    padding: 3vw 4vw;
+    display: flex;
+    flex-direction: column;
+    gap: 2.5rem;
+}
+
+/* ── Boas-vindas ─────────────────────────────────────────── */
+.admin-boas-vindas h1 {
+    font-size: clamp(1.4rem, 2.5vw, 2rem);
+    font-weight: 800;
+    color: var(--cm-marrom);
+}
+
+.admin-boas-vindas p {
+    font-size: 1rem;
+    color: var(--cm-cinza);
+    margin-top: 0.25rem;
+}
+
+/* ── Grade de cards ──────────────────────────────────────── */
+.admin-cards {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.5rem;
+}
+
+/* ── Card individual ─────────────────────────────────────── */
+.admin-card {
+    background-color: var(--cm-branco);
+    border: 2px solid var(--cm-borda);
+    border-radius: var(--radius-md);
+    padding: 2rem 1.75rem;
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    box-shadow: var(--sombra-sm);
+    transition: all var(--trans);
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+}
+
+/* Faixa decorativa no topo do card */
+.admin-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background-color: var(--cm-amarelo);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform var(--trans);
+}
+
+.admin-card:hover {
+    border-color: var(--cm-amarelo);
+    box-shadow: var(--sombra-md);
+    transform: translateY(-3px);
+}
+
+.admin-card:hover::before {
+    transform: scaleX(1);
+}
+
+.admin-card__icone {
+    font-size: 2.5rem;
+    flex-shrink: 0;
+    width: 64px;
+    height: 64px;
+    background-color: var(--cm-marrom-cl);
+    border-radius: var(--radius-sm);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color var(--trans);
+}
+
+.admin-card:hover .admin-card__icone {
+    background-color: var(--cm-amarelo);
+}
+
+.admin-card__conteudo {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+}
+
+.admin-card__titulo {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--cm-escuro);
+}
+
+.admin-card__descricao {
+    font-size: 0.85rem;
+    color: var(--cm-cinza);
+    line-height: 1.5;
+}
+
+.admin-card__seta {
+    font-size: 1.4rem;
+    color: var(--cm-borda);
+    flex-shrink: 0;
+    transition: color var(--trans), transform var(--trans);
+}
+
+.admin-card:hover .admin-card__seta {
+    color: var(--cm-vermelho);
+    transform: translateX(4px);
+}
+
+/* ── Footer ──────────────────────────────────────────────── */
+.admin-footer {
+    background-color: var(--cm-marrom-cl);
+    border-top: 1px solid var(--cm-borda);
+    padding: 1rem 4vw;
+    text-align: center;
+    font-size: 0.78rem;
+    color: rgba(93, 71, 49, 0.6);
+}
+
+/* ── Responsividade ──────────────────────────────────────── */
+@media (max-width: 768px) {
+    .admin-header__titulo {
+        display: none;
+    }
+
+    .admin-cards {
+        grid-template-columns: 1fr;
+    }
+
+    .admin-card {
+        padding: 1.5rem 1.25rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .admin-header__usuario {
+        display: none;
+    }
+
+    .admin-boas-vindas h1 {
+        font-size: 1.2rem;
+    }
+}

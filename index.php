@@ -184,7 +184,9 @@
       <footer>
         <div class="conteudoFooter">
           <div class="logotipo">
+            <a href="public/api/?action=admin-login">
             <img src="public/images/capitaoLogo-Footer.webp" alt="Logo do Capitão Muzzarela" />
+            </a>
             <img src="public/images/divisorFooter.svg" alt="Divisor decorativo" />
           </div>
           <div class="info">

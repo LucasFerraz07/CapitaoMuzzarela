@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="<?= BASE_URL ?>/css/loginAdmin.css">
+    <link rel="stylesheet" href="<?= BASE_URL ?>/public/css/loginAdmin.css">
     <title>Área Restrita — Capitão Muzzarela</title>
 </head>
 
@@ -12,7 +12,7 @@
     <div class="hero">
         <div class="esquerda"></div>
 
-        <img src="<?= BASE_URL ?>/images/logoCapitaoAdmin.webp" alt="Logo do Capitão Muzzarela">
+        <img src="<?= BASE_URL ?>/public/images/logoCapitaoAdmin.webp" alt="Logo do Capitão Muzzarela">
 
         <div class="direita">
             <div class="conteudoDireita">
@@ -24,7 +24,7 @@
                     </div>
                 <?php endif; ?>
 
-                <form action="<?= BASE_URL ?>/api/?action=admin-login" method="post">
+                <form action="<?= BASE_URL ?>/public/api/?action=admin-login" method="post">
                     <input
                         type="email"
                         name="email"
@@ -41,6 +41,9 @@
                         autocomplete="current-password">
                     <button type="submit">ENTRAR</button>
                 </form>
+                <a href="<?= BASE_URL ?>" class="homeButton">
+                    Sair
+                </a>
             </div>
         </div>
     </div>

@@ -59,6 +59,19 @@ button {
             gap: 4vw;
             height: 100%;
 
+            a {
+                display: flex;
+                text-decoration: none;
+                align-items: center;
+                justify-content: center;
+                width: 4vw;
+                color: #a01f23;
+                font-weight: 700;
+                font-size: 16px;
+                border-bottom: #a01f23 2px solid;
+
+            }
+
             h1 {
                 font-size: 36px;
                 letter-spacing: 8%;

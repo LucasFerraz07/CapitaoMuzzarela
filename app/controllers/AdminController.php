@@ -2,31 +2,27 @@
 /**
  * app/controllers/AdminController.php
  *
- * Controller responsável pela autenticação do painel administrativo.
- * Gerencia login, logout e proteção de rotas via PHP Session.
+ * Controller responsável pela autenticação e pelo painel administrativo.
+ * Gerencia login, logout, sessão e todas as telas do admin.
  */
 
 declare(strict_types=1);
 
 class AdminController
 {
-    private AdminModel $adminModel;
+    private AdminModel        $adminModel;
+    private ReservaAdminModel $reservaAdminModel;
 
     public function __construct()
     {
-        $this->adminModel = new AdminModel();
+        $this->adminModel        = new AdminModel();
+        $this->reservaAdminModel = new ReservaAdminModel();
     }
 
     // =========================================================================
-    // ACTION: Exibe a tela de login
+    // Autenticação
     // =========================================================================
 
-    /**
-     * Endpoint: GET /api/?action=admin-login
-     *
-     * Se o admin já estiver logado, redireciona para o dashboard.
-     * Caso contrário, exibe a view de login.
-     */
     public function exibirLogin(): void
     {
         if ($this->estaAutenticado()) {
@@ -38,15 +34,6 @@ class AdminController
         exit;
     }
 
-    // =========================================================================
-    // ACTION: Processa o formulário de login
-    // =========================================================================
-
-    /**
-     * Endpoint: POST /api/?action=admin-login
-     *
-     * Valida as credenciais e inicia a sessão em caso de sucesso.
-     */
     public function processarLogin(): void
     {
         if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
@@ -57,7 +44,6 @@ class AdminController
         $email = trim($_POST['email']    ?? '');
         $senha = trim($_POST['password'] ?? '');
 
-        // ── Validação básica ─────────────────────────────────────────────────
         if (empty($email) || empty($senha)) {
             $this->redirecionarComErro('admin-login', 'Preencha todos os campos.');
             return;
@@ -68,17 +54,14 @@ class AdminController
             return;
         }
 
-        // ── Busca o usuário no banco ─────────────────────────────────────────
         $usuario = $this->adminModel->buscarPorEmail($email);
 
-        // Verifica senha com hash (password_verify é seguro contra timing attacks)
         if (!$usuario || !password_verify($senha, $usuario['senha'])) {
             $this->redirecionarComErro('admin-login', 'E-mail ou senha incorretos.');
             return;
         }
 
-        // ── Inicia a sessão ───────────────────────────────────────────────────
-        session_regenerate_id(true); // previne session fixation
+        session_regenerate_id(true);
 
         $_SESSION['admin_id']    = $usuario['id'];
         $_SESSION['admin_nome']  = $usuario['nome'];
@@ -87,15 +70,6 @@ class AdminController
         $this->redirecionar('admin-dashboard');
     }
 
-    // =========================================================================
-    // ACTION: Logout
-    // =========================================================================
-
-    /**
-     * Endpoint: GET /api/?action=admin-logout
-     *
-     * Destrói a sessão e redireciona para o login.
-     */
     public function logout(): void
     {
         $_SESSION = [];
@@ -103,8 +77,7 @@ class AdminController
         if (ini_get('session.use_cookies')) {
             $params = session_get_cookie_params();
             setcookie(
-                session_name(),
-                '',
+                session_name(), '',
                 time() - 42000,
                 $params['path'],
                 $params['domain'],
@@ -114,19 +87,13 @@ class AdminController
         }
 
         session_destroy();
-
         $this->redirecionar('admin-login');
     }
 
     // =========================================================================
-    // ACTION: Exibe o dashboard
+    // Dashboard
     // =========================================================================
 
-    /**
-     * Endpoint: GET /api/?action=admin-dashboard
-     *
-     * Protegido: redireciona para login se não autenticado.
-     */
     public function exibirDashboard(): void
     {
         $this->exigirAutenticacao();
@@ -136,22 +103,107 @@ class AdminController
     }
 
     // =========================================================================
-    // Helpers públicos
+    // Reservas — Listagem
     // =========================================================================
 
     /**
-     * Verifica se o admin está autenticado.
-     * Pode ser chamado por outros controllers para proteger rotas.
+     * Endpoint: GET /api/?action=admin-reservas
+     * Exibe a listagem de reservas com filtros opcionais por data e status.
      */
+    public function exibirReservas(): void
+    {
+        $this->exigirAutenticacao();
+
+        $filtroData   = trim($_GET['data']   ?? '');
+        $filtroStatus = trim($_GET['status'] ?? '');
+
+        if (!empty($filtroData) && !$this->validarData($filtroData)) {
+            $filtroData = '';
+        }
+
+        $statusPermitidos = ['ativa', 'finalizada', ''];
+        if (!in_array($filtroStatus, $statusPermitidos, true)) {
+            $filtroStatus = '';
+        }
+
+        $reservas = $this->reservaAdminModel->listar(
+            $filtroData   ?: null,
+            $filtroStatus ?: null
+        );
+
+        require_once dirname(__DIR__, 2) . '/app/views/admin/reservas.php';
+        exit;
+    }
+
+    // =========================================================================
+    // Reservas — Detalhe
+    // =========================================================================
+
+    /**
+     * Endpoint: GET /api/?action=admin-reserva-detalhe&id=N
+     * Exibe os detalhes de uma reserva específica.
+     */
+    public function exibirReservaDetalhe(): void
+    {
+        $this->exigirAutenticacao();
+
+        $id = (int) ($_GET['id'] ?? 0);
+
+        if ($id < 1) {
+            $this->redirecionar('admin-reservas');
+            return;
+        }
+
+        $reserva = $this->reservaAdminModel->buscarPorId($id);
+
+        if (!$reserva) {
+            $this->redirecionar('admin-reservas');
+            return;
+        }
+
+        require_once dirname(__DIR__, 2) . '/app/views/admin/reserva_detalhe.php';
+        exit;
+    }
+
+    // =========================================================================
+    // Reservas — Atualizar status
+    // =========================================================================
+
+    /**
+     * Endpoint: POST /api/?action=admin-reserva-status
+     * Atualiza o status de uma reserva e redireciona para a listagem.
+     */
+    public function atualizarStatusReserva(): void
+    {
+        $this->exigirAutenticacao();
+
+        if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+            $this->redirecionar('admin-reservas');
+            return;
+        }
+
+        $id     = (int)   ($_POST['id']     ?? 0);
+        $status = trim($_POST['status'] ?? '');
+
+        if ($id < 1 || !in_array($status, ['ativa', 'finalizada'], true)) {
+            $this->redirecionar('admin-reservas');
+            return;
+        }
+
+        $this->reservaAdminModel->atualizarStatus($id, $status);
+
+        $this->redirecionar('admin-reservas');
+    }
+
+    // =========================================================================
+    // Helpers públicos
+    // =========================================================================
+
     public function estaAutenticado(): bool
     {
         return !empty($_SESSION['admin_id']);
     }
 
-    /**
-     * Redireciona para o login se não estiver autenticado.
-     * Use no início de qualquer action protegida.
-     */
     public function exigirAutenticacao(): void
     {
         if (!$this->estaAutenticado()) {
@@ -164,22 +216,22 @@ class AdminController
     // Helpers privados
     // =========================================================================
 
-    /**
-     * Redireciona para uma action do roteador.
-     */
+    private function validarData(string $data): bool
+    {
+        $d = DateTimeImmutable::createFromFormat('Y-m-d', $data);
+        return $d !== false && $d->format('Y-m-d') === $data;
+    }
+
     private function redirecionar(string $action): void
     {
-        header("Location: " . BASE_URL . "/api/?action={$action}");
+        header("Location: /CapitaoMuzzarela/public/api/?action={$action}");
         exit;
     }
 
-    /**
-     * Redireciona com mensagem de erro na query string.
-     */
     private function redirecionarComErro(string $action, string $erro): void
     {
         $msg = urlencode($erro);
-        header("Location: /public/api/?action={$action}&erro={$msg}");
+        header("Location: /CapitaoMuzzarela/public/api/?action={$action}&erro={$msg}");
         exit;
     }
 }

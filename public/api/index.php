@@ -18,8 +18,9 @@
  *   GET  ?action=admin-dashboard    → painel principal (protegido)
  */
 
-
 declare(strict_types=1);
+
+define('BASE_URL', '/CapitaoMuzzarela');
 
 // ── Sessão ────────────────────────────────────────────────────────────────────
 session_start();
@@ -29,7 +30,6 @@ header('X-Content-Type-Options: nosniff');
 header('X-Frame-Options: DENY');
 
 // ── Autoload / includes ───────────────────────────────────────────────────────
-define('BASE_URL', '/CapitaoMuzzarela/public');
 $root = dirname(__DIR__, 2);
 
 require_once $root . '/config/Database.php';
@@ -37,6 +37,7 @@ require_once $root . '/app/models/HorarioModel.php';
 require_once $root . '/app/models/MesaModel.php';
 require_once $root . '/app/models/ReservaModel.php';
 require_once $root . '/app/models/AdminModel.php';
+require_once $root . '/app/models/ReservaAdminModel.php';
 require_once $root . '/app/controllers/ReservaController.php';
 require_once $root . '/app/controllers/AdminController.php';
 
@@ -76,6 +77,18 @@ switch ($action) {
 
     case 'admin-dashboard':
         $adminController->exibirDashboard();
+        break;
+
+    case 'admin-reservas':
+        $adminController->exibirReservas();
+        break;
+
+    case 'admin-reserva-detalhe':
+        $adminController->exibirReservaDetalhe();
+        break;
+
+    case 'admin-reserva-status':
+        $adminController->atualizarStatusReserva();
         break;
 
     // ── Rota não encontrada ───────────────────────────────────────────────────

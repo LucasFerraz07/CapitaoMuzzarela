@@ -1,0 +1,423 @@
+/* ============================================================
+   public/css/adminReservas.css
+   Estilos da tela de Reservas — Painel Administrativo
+   ============================================================ */
+
+/* ── Breadcrumb ──────────────────────────────────────────── */
+.admin-breadcrumb {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 1.2rem;
+    color: var(--cm-cinza);
+    margin-bottom: 0.5rem;
+}
+
+.admin-breadcrumb a {
+    color: var(--cm-vermelho);
+    text-decoration: none;
+    transition: opacity var(--trans);
+}
+
+.admin-breadcrumb a:hover {
+    opacity: 0.75;
+}
+
+/* ── Cabeçalho da página ─────────────────────────────────── */
+.admin-page-header h1 {
+    font-size: 3rem;
+    font-weight: 800;
+    color: var(--cm-marrom);
+}
+
+.admin-page-header p {
+    font-size: 0.95rem;
+    color: var(--cm-cinza);
+    margin-top: 0.2rem;
+}
+
+/* ── Filtros ─────────────────────────────────────────────── */
+.admin-filtros {
+    background-color: var(--cm-branco);
+    border: 2px solid var(--cm-borda);
+    border-radius: var(--radius-md);
+    padding: 1.25rem 1.5rem;
+    box-shadow: var(--sombra-sm);
+}
+
+.filtros-form {
+    display: flex;
+    align-items: flex-end;
+    gap: 1rem;
+    flex-wrap: wrap;
+}
+
+.filtro-grupo {
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+}
+
+.filtro-grupo label {
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: var(--cm-marrom);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.filtro-grupo input,
+.filtro-grupo select {
+    height: 40px;
+    padding: 0 0.75rem;
+    border: 1px solid var(--cm-borda);
+    border-radius: var(--radius-sm);
+    font-size: 0.9rem;
+    font-family: "Poppins", sans-serif;
+    color: var(--cm-escuro);
+    background-color: var(--cm-fundo);
+    outline: none;
+    transition: border-color var(--trans);
+}
+
+.filtro-grupo input:focus,
+.filtro-grupo select:focus {
+    border-color: var(--cm-amarelo);
+    box-shadow: 0 0 0 3px rgba(250, 186, 1, 0.2);
+}
+
+.btn-filtrar {
+    height: 40px;
+    padding: 0 1.25rem;
+    background-color: var(--cm-escuro);
+    color: var(--cm-branco);
+    border: none;
+    border-radius: var(--radius-sm);
+    font-size: 0.875rem;
+    font-weight: 700;
+    font-family: "Poppins", sans-serif;
+    cursor: pointer;
+    transition: all var(--trans);
+}
+
+.btn-filtrar:hover {
+    background-color: var(--cm-vermelho);
+    transform: scale(1.03);
+}
+
+.btn-limpar {
+    height: 40px;
+    padding: 0 1.25rem;
+    background-color: transparent;
+    color: var(--cm-cinza);
+    border: 1px solid var(--cm-borda);
+    border-radius: var(--radius-sm);
+    font-size: 0.875rem;
+    font-family: "Poppins", sans-serif;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    transition: all var(--trans);
+}
+
+.btn-limpar:hover {
+    border-color: var(--cm-vermelho);
+    color: var(--cm-vermelho);
+}
+
+/* ── Total de resultados ─────────────────────────────────── */
+.reservas-total {
+    font-size: 0.875rem;
+    color: var(--cm-cinza);
+    margin-bottom: 0.75rem;
+}
+
+/* ── Estado vazio ────────────────────────────────────────── */
+.reservas-vazio {
+    background-color: var(--cm-branco);
+    border: 2px dashed var(--cm-borda);
+    border-radius: var(--radius-md);
+    padding: 3rem;
+    text-align: center;
+    color: var(--cm-cinza);
+    font-size: 1rem;
+}
+
+/* ── Grade de cards ──────────────────────────────────────── */
+.reservas-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 1.25rem;
+}
+
+/* ── Card de reserva ─────────────────────────────────────── */
+.reserva-card {
+    background-color: var(--cm-branco);
+    border: 2px solid var(--cm-borda);
+    border-radius: var(--radius-md);
+    overflow: hidden;
+    box-shadow: var(--sombra-sm);
+    display: flex;
+    flex-direction: column;
+    transition: box-shadow var(--trans), transform var(--trans);
+}
+
+.reserva-card:hover {
+    box-shadow: var(--sombra-md);
+    transform: translateY(-2px);
+}
+
+.reserva-card--finalizada {
+    opacity: 0.7;
+}
+
+.reserva-card__header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.75rem 1rem;
+    background-color: var(--cm-fundo);
+    border-bottom: 1px solid var(--cm-borda);
+}
+
+.reserva-card__id {
+    font-size: 0.8rem;
+    font-weight: 700;
+    color: var(--cm-cinza);
+}
+
+.reserva-card__body {
+    padding: 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+    flex: 1;
+}
+
+.reserva-card__nome {
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--cm-escuro);
+}
+
+.reserva-card__info {
+    font-size: 0.875rem;
+    color: var(--cm-cinza);
+}
+
+.reserva-card__footer {
+    padding: 0.75rem 1rem;
+    border-top: 1px solid var(--cm-borda);
+    display: flex;
+    gap: 0.75rem;
+    align-items: center;
+}
+
+/* ── Status badges ───────────────────────────────────────── */
+.reserva-status--ativa {
+    font-size: 0.78rem;
+    font-weight: 700;
+    color: #1a7a3c;
+    background-color: #e6f4ec;
+    padding: 0.2rem 0.6rem;
+    border-radius: 20px;
+}
+
+.reserva-status--finalizada {
+    font-size: 0.78rem;
+    font-weight: 700;
+    color: #4a4a4a;
+    background-color: #ececec;
+    padding: 0.2rem 0.6rem;
+    border-radius: 20px;
+}
+
+/* ── Botões das ações ────────────────────────────────────── */
+.btn-detalhe {
+    flex: 1;
+    text-align: center;
+    padding: 0.5rem 0.75rem;
+    background-color: transparent;
+    border: 2px solid var(--cm-escuro);
+    border-radius: var(--radius-sm);
+    color: var(--cm-escuro);
+    font-size: 0.8rem;
+    font-weight: 700;
+    text-decoration: none;
+    transition: all var(--trans);
+}
+
+.btn-detalhe:hover {
+    background-color: var(--cm-escuro);
+    color: var(--cm-branco);
+}
+
+.btn-finalizar {
+    flex: 1;
+    padding: 0.5rem 0.75rem;
+    background-color: var(--cm-vermelho);
+    color: var(--cm-branco);
+    border: none;
+    border-radius: var(--radius-sm);
+    font-size: 0.8rem;
+    font-weight: 700;
+    font-family: "Poppins", sans-serif;
+    cursor: pointer;
+    transition: all var(--trans);
+    width: 100%;
+}
+
+.btn-finalizar:hover {
+    background-color: var(--cm-vermelho-h);
+    transform: scale(1.03);
+}
+
+.btn-finalizar--grande {
+    padding: 0.75rem 2rem;
+    font-size: 1rem;
+}
+
+/* ── Tela de detalhe ─────────────────────────────────────── */
+.reserva-detalhe {
+    background-color: var(--cm-branco);
+    border: 2px solid var(--cm-borda);
+    border-radius: var(--radius-md);
+    padding: 2rem;
+    box-shadow: var(--sombra-sm);
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+}
+
+.reserva-detalhe__header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 1rem;
+}
+
+.reserva-detalhe__header h1 {
+    font-size: 1.5rem;
+    font-weight: 800;
+    color: var(--cm-marrom);
+}
+
+.reserva-detalhe__badge {
+    display: inline-block;
+    margin-top: 0.5rem;
+}
+
+.btn-voltar {
+    padding: 0.5rem 1.25rem;
+    background-color: transparent;
+    border: 2px solid var(--cm-borda);
+    border-radius: var(--radius-lg);
+    color: var(--cm-cinza);
+    font-size: 0.875rem;
+    font-weight: 600;
+    text-decoration: none;
+    transition: all var(--trans);
+    white-space: nowrap;
+}
+
+.btn-voltar:hover {
+    border-color: var(--cm-marrom);
+    color: var(--cm-marrom);
+}
+
+.reserva-detalhe__grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.5rem;
+}
+
+.detalhe-grupo {
+    background-color: var(--cm-fundo);
+    border: 1px solid var(--cm-borda);
+    border-radius: var(--radius-sm);
+    padding: 1.25rem;
+}
+
+.detalhe-grupo--full {
+    grid-column: 1 / -1;
+}
+
+.detalhe-grupo__titulo {
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: var(--cm-marrom);
+    margin-bottom: 1rem;
+}
+
+.detalhe-lista {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+
+.detalhe-item dt {
+    font-size: 0.78rem;
+    font-weight: 600;
+    color: var(--cm-cinza);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.detalhe-item dd {
+    font-size: 0.95rem;
+    color: var(--cm-escuro);
+    margin-top: 0.15rem;
+}
+
+.detalhe-item dd a {
+    color: var(--cm-vermelho);
+    text-decoration: none;
+}
+
+.detalhe-item dd a:hover {
+    text-decoration: underline;
+}
+
+.detalhe-obs {
+    font-size: 0.95rem;
+    color: var(--cm-cinza);
+    line-height: 1.6;
+}
+
+.reserva-detalhe__acoes {
+    display: flex;
+    justify-content: flex-end;
+    padding-top: 1rem;
+    border-top: 1px solid var(--cm-borda);
+}
+
+/* ── Responsividade ──────────────────────────────────────── */
+@media (max-width: 768px) {
+    .filtros-form {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .btn-filtrar,
+    .btn-limpar {
+        width: 100%;
+        justify-content: center;
+    }
+
+    .reservas-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .reserva-detalhe__grid {
+        grid-template-columns: 1fr;
+    }
+
+    .detalhe-grupo--full {
+        grid-column: 1;
+    }
+
+    .reserva-detalhe__header {
+        flex-direction: column;
+    }
+}

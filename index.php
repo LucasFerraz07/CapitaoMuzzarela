@@ -66,7 +66,7 @@
           </div>
 
           <div class="direita">
-            <img
+            <img  data-speed="0.9"
               src="public/images/pizzaInteira.svg"
               alt="Imagem de uma pizza deliciosa"
               class="pizzaHero" />

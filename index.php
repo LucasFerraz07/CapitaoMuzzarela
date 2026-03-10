@@ -41,8 +41,8 @@
         <section class="hero">
           <div class="esquerda">
             <div class="textos">
-              <h1>VENHA CONHECER A MELHOR PIZZARIA DA REGIÃO!</h1>
-              <p>
+              <h1 class="titleSplit">VENHA CONHECER A MELHOR PIZZARIA DA REGIÃO!</h1>
+              <p class="textSplit">
                 Aqui no <strong>CAPITÃO MUZZARELA</strong> cada fatia é uma
                 viagem ao coração da tradição italiana. Somos a pizzaria
                 número UM de Cruzeiro.

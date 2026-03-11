@@ -11,16 +11,27 @@
  *   GET  ?action=mesas-disponiveis&data=YYYY-MM-DD&qntd_pessoas=N
  *   POST ?action=salvar-reserva
  *
- * — Admin —
- *   GET  ?action=admin-login        → exibe tela de login
- *   POST ?action=admin-login        → processa login
- *   GET  ?action=admin-logout       → encerra sessão
- *   GET  ?action=admin-dashboard    → painel principal (protegido)
+ * — Admin: Autenticação —
+ *   GET  ?action=admin-login              → exibe tela de login
+ *   POST ?action=admin-login              → processa login
+ *   GET  ?action=admin-logout             → encerra sessão
+ *   GET  ?action=admin-dashboard          → painel principal
+ *
+ * — Admin: Reservas —
+ *   GET  ?action=admin-reservas           → listagem
+ *   GET  ?action=admin-reserva-detalhe    → detalhe de uma reserva
+ *   POST ?action=admin-reserva-status     → atualiza status
+ *
+ * — Admin: Cardápio —
+ *   GET  ?action=admin-cardapio           → listagem categorias + produtos
+ *   POST ?action=admin-categoria-salvar   → criar/editar categoria
+ *   GET  ?action=admin-categoria-toggle   → ativar/desativar categoria
+ *   GET  ?action=admin-categoria-excluir  → excluir categoria
+ *   POST ?action=admin-produto-salvar     → criar/editar produto
+ *   GET  ?action=admin-produto-excluir    → excluir produto
  */
 
 declare(strict_types=1);
-
-define('BASE_URL', '/CapitaoMuzzarela');
 
 // ── Sessão ────────────────────────────────────────────────────────────────────
 session_start();
@@ -38,10 +49,15 @@ require_once $root . '/app/models/MesaModel.php';
 require_once $root . '/app/models/ReservaModel.php';
 require_once $root . '/app/models/AdminModel.php';
 require_once $root . '/app/models/ReservaAdminModel.php';
+require_once $root . '/app/models/CategoriaModel.php';
+require_once $root . '/app/models/ProdutoModel.php';
 require_once $root . '/app/controllers/ReservaController.php';
 require_once $root . '/app/controllers/AdminController.php';
 
 // ── Roteamento ────────────────────────────────────────────────────────────────
+// ── URL base do projeto (usada nas views para CSS, imagens e links)
+define('BASE_URL', '/CapitaoMuzzarela');
+
 $action = $_GET['action'] ?? '';
 
 $reservaController = new ReservaController();
@@ -89,6 +105,31 @@ switch ($action) {
 
     case 'admin-reserva-status':
         $adminController->atualizarStatusReserva();
+        break;
+
+    // ── Rotas do Cardápio ─────────────────────────────────────────────────────
+    case 'admin-cardapio':
+        $adminController->exibirCardapio();
+        break;
+
+    case 'admin-categoria-salvar':
+        $adminController->salvarCategoria();
+        break;
+
+    case 'admin-categoria-toggle':
+        $adminController->alternarAtivoCategoria();
+        break;
+
+    case 'admin-categoria-excluir':
+        $adminController->excluirCategoria();
+        break;
+
+    case 'admin-produto-salvar':
+        $adminController->salvarProduto();
+        break;
+
+    case 'admin-produto-excluir':
+        $adminController->excluirProduto();
         break;
 
     // ── Rota não encontrada ───────────────────────────────────────────────────

@@ -4,7 +4,7 @@ gsap.registerPlugin(ScrollTrigger,ScrollSmoother,ScrollToPlugin,SplitText);
 //ESTOU COM PROBLEMAS AQUI, FAIXAS BRANCAS APARECENDO. -->
 
 ScrollSmoother.create({
-	smooth: 0, // how long (in seconds) it takes to "catch up" to the native scroll position
+	smooth: 0.5, // how long (in seconds) it takes to "catch up" to the native scroll position
 	effects: true, // looks for data-speed and data-lag attributes on elements
 });
 
@@ -28,7 +28,7 @@ ScrollSmoother.create({
   tl.from(allTitleChars, {
     y: 30,
     opacity: 0,
-    stagger: 0.09,
+    stagger: 0.07,
     duration: 0.5,
   });
 

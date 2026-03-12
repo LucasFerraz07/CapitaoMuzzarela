@@ -22,6 +22,11 @@
  *   GET  ?action=admin-reserva-detalhe    → detalhe de uma reserva
  *   POST ?action=admin-reserva-status     → atualiza status
  *
+ * — Admin: Mesas —
+ *   GET  ?action=admin-mesas              → listagem
+ *   POST ?action=admin-mesa-salvar        → criar/editar mesa
+ *   GET  ?action=admin-mesa-excluir       → excluir mesa
+ *
  * — Admin: Cardápio —
  *   GET  ?action=admin-cardapio           → listagem categorias + produtos
  *   POST ?action=admin-categoria-salvar   → criar/editar categoria
@@ -49,6 +54,7 @@ require_once $root . '/app/models/MesaModel.php';
 require_once $root . '/app/models/ReservaModel.php';
 require_once $root . '/app/models/AdminModel.php';
 require_once $root . '/app/models/ReservaAdminModel.php';
+require_once $root . '/app/models/MesaAdminModel.php';
 require_once $root . '/app/models/CategoriaModel.php';
 require_once $root . '/app/models/ProdutoModel.php';
 require_once $root . '/app/controllers/ReservaController.php';
@@ -105,6 +111,19 @@ switch ($action) {
 
     case 'admin-reserva-status':
         $adminController->atualizarStatusReserva();
+        break;
+
+    // ── Rotas de Mesas ───────────────────────────────────────────────────────────
+    case 'admin-mesas':
+        $adminController->exibirMesas();
+        break;
+
+    case 'admin-mesa-salvar':
+        $adminController->salvarMesa();
+        break;
+
+    case 'admin-mesa-excluir':
+        $adminController->excluirMesa();
         break;
 
     // ── Rotas do Cardápio ─────────────────────────────────────────────────────

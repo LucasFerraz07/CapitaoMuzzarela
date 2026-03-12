@@ -14,6 +14,7 @@ class AdminController
     private ReservaAdminModel $reservaAdminModel;
     private CategoriaModel    $categoriaModel;
     private ProdutoModel      $produtoModel;
+    private MesaAdminModel    $mesaAdminModel;
     private string            $raiz;
 
     public function __construct()
@@ -22,6 +23,7 @@ class AdminController
         $this->reservaAdminModel = new ReservaAdminModel();
         $this->categoriaModel    = new CategoriaModel();
         $this->produtoModel      = new ProdutoModel();
+        $this->mesaAdminModel    = new MesaAdminModel();
         $this->raiz              = dirname(__DIR__, 2);
     }
 
@@ -435,6 +437,97 @@ class AdminController
         }
 
         return ['erro' => false, 'nome' => $nomeArquivo];
+    }
+
+
+    // =========================================================================
+    // Mesas — Listagem
+    // =========================================================================
+
+    /**
+     * Endpoint: GET /public/api/?action=admin-mesas
+     * Exibe a listagem de mesas com status de ocupação hoje.
+     */
+    public function exibirMesas(): void
+    {
+        $this->exigirAutenticacao();
+
+        $mesas   = $this->mesaAdminModel->listar();
+        $erro    = $_GET['erro']    ?? null;
+        $sucesso = $_GET['sucesso'] ?? null;
+
+        require_once $this->raiz . '/app/views/admin/mesas.php';
+        exit;
+    }
+
+    // =========================================================================
+    // Mesas — Salvar (criar ou editar)
+    // =========================================================================
+
+    /**
+     * Endpoint: POST /public/api/?action=admin-mesa-salvar
+     */
+    public function salvarMesa(): void
+    {
+        $this->exigirAutenticacao();
+
+        if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+            $this->redirecionar('admin-mesas');
+            return;
+        }
+
+        $id         = (int) ($_POST['id']         ?? 0);
+        $numero     = (int) ($_POST['numero']     ?? 0);
+        $capacidade = (int) ($_POST['capacidade'] ?? 0);
+
+        // Validações
+        if ($numero < 1 || $numero > 999) {
+            $this->redirecionarComErro('admin-mesas', 'Número da mesa inválido (1 a 999).');
+            return;
+        }
+
+        if ($capacidade < 1 || $capacidade > 50) {
+            $this->redirecionarComErro('admin-mesas', 'Capacidade inválida (1 a 50 pessoas).');
+            return;
+        }
+
+        try {
+            if ($id > 0) {
+                $this->mesaAdminModel->atualizar($id, $numero, $capacidade);
+                $this->redirecionarComSucesso('admin-mesas', 'Mesa atualizada com sucesso!');
+            } else {
+                $this->mesaAdminModel->criar($numero, $capacidade);
+                $this->redirecionarComSucesso('admin-mesas', 'Mesa criada com sucesso!');
+            }
+        } catch (RuntimeException $e) {
+            $this->redirecionarComErro('admin-mesas', $e->getMessage());
+        }
+    }
+
+    // =========================================================================
+    // Mesas — Excluir
+    // =========================================================================
+
+    /**
+     * Endpoint: GET /public/api/?action=admin-mesa-excluir&id=N
+     */
+    public function excluirMesa(): void
+    {
+        $this->exigirAutenticacao();
+
+        $id = (int) ($_GET['id'] ?? 0);
+
+        if ($id < 1) {
+            $this->redirecionar('admin-mesas');
+            return;
+        }
+
+        try {
+            $this->mesaAdminModel->excluir($id);
+            $this->redirecionarComSucesso('admin-mesas', 'Mesa excluída com sucesso!');
+        } catch (RuntimeException $e) {
+            $this->redirecionarComErro('admin-mesas', $e->getMessage());
+        }
     }
 
     // =========================================================================

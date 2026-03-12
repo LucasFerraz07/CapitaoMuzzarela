@@ -22,6 +22,10 @@
  *   GET  ?action=admin-reserva-detalhe    → detalhe de uma reserva
  *   POST ?action=admin-reserva-status     → atualiza status
  *
+ * — Admin: Horários —
+ *   GET  ?action=admin-horarios           → listagem
+ *   POST ?action=admin-horario-salvar     → atualizar horário
+ *
  * — Admin: Mesas —
  *   GET  ?action=admin-mesas              → listagem
  *   POST ?action=admin-mesa-salvar        → criar/editar mesa
@@ -54,6 +58,7 @@ require_once $root . '/app/models/MesaModel.php';
 require_once $root . '/app/models/ReservaModel.php';
 require_once $root . '/app/models/AdminModel.php';
 require_once $root . '/app/models/ReservaAdminModel.php';
+require_once $root . '/app/models/HorarioAdminModel.php';
 require_once $root . '/app/models/MesaAdminModel.php';
 require_once $root . '/app/models/CategoriaModel.php';
 require_once $root . '/app/models/ProdutoModel.php';
@@ -111,6 +116,15 @@ switch ($action) {
 
     case 'admin-reserva-status':
         $adminController->atualizarStatusReserva();
+        break;
+
+    // ── Rotas de Horários ────────────────────────────────────────────────────────
+    case 'admin-horarios':
+        $adminController->exibirHorarios();
+        break;
+
+    case 'admin-horario-salvar':
+        $adminController->salvarHorario();
         break;
 
     // ── Rotas de Mesas ───────────────────────────────────────────────────────────

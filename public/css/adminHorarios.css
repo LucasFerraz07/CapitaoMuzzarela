@@ -1,0 +1,347 @@
+/* ============================================================
+   public/css/adminHorarios.css
+   Estilos da tela de Horários — Painel Administrativo
+   ============================================================ */
+
+/* ── Cabeçalho da página ─────────────────────────────────── */
+.admin-page-header h1 {
+    font-size: clamp(1.4rem, 2.5vw, 2rem);
+    font-weight: 800;
+    color: var(--cm-marrom);
+}
+
+.admin-page-header p {
+    font-size: 0.95rem;
+    color: var(--cm-cinza);
+    margin-top: 0.2rem;
+}
+
+/* ── Alertas ─────────────────────────────────────────────── */
+.alerta {
+    padding: 0.875rem 1.25rem;
+    border-radius: var(--radius-sm);
+    font-size: 0.9rem;
+    font-weight: 500;
+}
+
+.alerta--erro {
+    background: #fdedec;
+    border: 1px solid #f5b7b1;
+    color: #c0392b;
+}
+
+.alerta--sucesso {
+    background: #eafaf1;
+    border: 1px solid #a9dfbf;
+    color: #1a7a3c;
+}
+
+/* ── Grade de horários ───────────────────────────────────── */
+.horarios-secao {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.horarios-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 1.25rem;
+}
+
+/* ── Card de horário ─────────────────────────────────────── */
+.horario-card {
+    background-color: var(--cm-branco);
+    border: 2px solid var(--cm-borda);
+    border-radius: var(--radius-md);
+    overflow: hidden;
+    box-shadow: var(--sombra-sm);
+    display: flex;
+    flex-direction: column;
+    transition: box-shadow var(--trans), transform var(--trans);
+}
+
+.horario-card:hover {
+    box-shadow: var(--sombra-md);
+    transform: translateY(-2px);
+}
+
+.horario-card--aberto {
+    border-color: #a9dfbf;
+}
+
+.horario-card--fechado {
+    border-color: #f5b7b1;
+    opacity: 0.75;
+}
+
+.horario-card__dia {
+    padding: 1rem 1rem 0.4rem;
+    font-size: 1.05rem;
+    font-weight: 800;
+    color: var(--cm-marrom);
+    text-align: center;
+}
+
+.horario-card__info {
+    padding: 0 1rem 1rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.4rem;
+    flex: 1;
+}
+
+.horario-card__status {
+    font-size: 0.8rem;
+    font-weight: 600;
+    padding: 0.25rem 0.75rem;
+    border-radius: 20px;
+}
+
+.status--aberto {
+    background-color: #eafaf1;
+    color: #1a7a3c;
+}
+
+.status--fechado {
+    background-color: #fdedec;
+    color: #c0392b;
+}
+
+.horario-card__horario {
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: var(--cm-escuro);
+    letter-spacing: 0.5px;
+}
+
+.horario-card__acoes {
+    padding: 0.75rem;
+    border-top: 1px solid var(--cm-borda);
+}
+
+/* ── Botão de ação ───────────────────────────────────────── */
+.btn-acao {
+    width: 100%;
+    padding: 0.45rem 0.5rem;
+    border-radius: var(--radius-sm);
+    font-size: 0.82rem;
+    font-weight: 700;
+    font-family: "Poppins", sans-serif;
+    cursor: pointer;
+    text-decoration: none;
+    display: inline-block;
+    text-align: center;
+    transition: all var(--trans);
+    border: none;
+}
+
+.btn-acao--editar {
+    background-color: var(--cm-escuro);
+    color: var(--cm-branco);
+}
+
+.btn-acao--editar:hover {
+    background-color: var(--cm-marrom);
+}
+
+/* ── Modal ───────────────────────────────────────────────── */
+.modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.6);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 9999;
+    padding: 1rem;
+    backdrop-filter: blur(3px);
+}
+
+.modal-overlay[hidden] { display: none; }
+
+.modal-container {
+    background: var(--cm-branco);
+    border-radius: var(--radius-md);
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.35);
+    width: 100%;
+    max-width: 440px;
+}
+
+.modal-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1.25rem 1.5rem;
+    background-color: var(--cm-vermelho);
+    border-radius: var(--radius-md) var(--radius-md) 0 0;
+}
+
+.modal-header h2 {
+    color: var(--cm-branco);
+    font-size: 1.1rem;
+    font-weight: 700;
+    margin: 0;
+}
+
+.modal-fechar {
+    background: transparent;
+    border: none;
+    color: rgba(255, 255, 255, 0.85);
+    font-size: 1.6rem;
+    cursor: pointer;
+    line-height: 1;
+    transition: all var(--trans);
+}
+
+.modal-fechar:hover {
+    color: var(--cm-branco);
+    transform: rotate(90deg);
+}
+
+.modal-form {
+    padding: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+/* ── Nome do dia no modal ────────────────────────────────── */
+.modal-dia {
+    font-size: 1.1rem;
+    font-weight: 800;
+    color: var(--cm-marrom);
+    text-align: center;
+    margin: 0;
+}
+
+/* ── Campos ──────────────────────────────────────────────── */
+.campo-linha {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+    transition: opacity var(--trans);
+}
+
+.campos--desabilitados {
+    opacity: 0.4;
+    pointer-events: none;
+}
+
+.campo-grupo {
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+}
+
+.campo-grupo label {
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: var(--cm-escuro);
+}
+
+.campo-grupo input[type="time"] {
+    padding: 0.6rem 0.75rem;
+    border: 1.5px solid var(--cm-borda);
+    border-radius: var(--radius-sm);
+    font-size: 0.9rem;
+    font-family: "Poppins", sans-serif;
+    color: var(--cm-escuro);
+    background: var(--cm-branco);
+    outline: none;
+    transition: border-color var(--trans);
+}
+
+.campo-grupo input[type="time"]:focus {
+    border-color: var(--cm-vermelho);
+    box-shadow: 0 0 0 3px rgba(194, 40, 45, 0.12);
+}
+
+.campo-grupo--checkbox {
+    flex-direction: row;
+    align-items: center;
+}
+
+.checkbox-label {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.9rem;
+    font-weight: 500;
+    cursor: pointer;
+}
+
+.checkbox-label input[type="checkbox"] {
+    width: 16px;
+    height: 16px;
+    accent-color: var(--cm-vermelho);
+    cursor: pointer;
+}
+
+.obrigatorio { color: var(--cm-vermelho); }
+
+/* ── Ações do modal ──────────────────────────────────────── */
+.modal-acoes {
+    display: flex;
+    gap: 0.75rem;
+    justify-content: flex-end;
+    margin-top: 0.5rem;
+}
+
+.btn-cancelar {
+    padding: 0.65rem 1.25rem;
+    background: transparent;
+    border: 1.5px solid var(--cm-borda);
+    border-radius: var(--radius-sm);
+    color: var(--cm-cinza);
+    font-size: 0.9rem;
+    font-weight: 600;
+    font-family: "Poppins", sans-serif;
+    cursor: pointer;
+    transition: all var(--trans);
+}
+
+.btn-cancelar:hover {
+    background: var(--cm-fundo);
+    color: var(--cm-escuro);
+}
+
+.btn-confirmar {
+    padding: 0.65rem 1.5rem;
+    background: var(--cm-vermelho);
+    border: none;
+    border-radius: var(--radius-sm);
+    color: var(--cm-branco);
+    font-size: 0.9rem;
+    font-weight: 700;
+    font-family: "Poppins", sans-serif;
+    cursor: pointer;
+    transition: all var(--trans);
+}
+
+.btn-confirmar:hover {
+    background: var(--cm-vermelho-h);
+    transform: translateY(-1px);
+}
+
+/* ── Responsividade ──────────────────────────────────────── */
+@media (max-width: 480px) {
+    .horarios-grid {
+        grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+    }
+
+    .campo-linha {
+        grid-template-columns: 1fr;
+    }
+
+    .modal-acoes {
+        flex-direction: column-reverse;
+    }
+
+    .btn-cancelar,
+    .btn-confirmar {
+        width: 100%;
+        text-align: center;
+    }
+}

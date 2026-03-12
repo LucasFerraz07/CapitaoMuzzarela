@@ -15,6 +15,7 @@ class AdminController
     private CategoriaModel    $categoriaModel;
     private ProdutoModel      $produtoModel;
     private MesaAdminModel    $mesaAdminModel;
+    private HorarioAdminModel $horarioAdminModel;
     private string            $raiz;
 
     public function __construct()
@@ -24,6 +25,7 @@ class AdminController
         $this->categoriaModel    = new CategoriaModel();
         $this->produtoModel      = new ProdutoModel();
         $this->mesaAdminModel    = new MesaAdminModel();
+        $this->horarioAdminModel = new HorarioAdminModel();
         $this->raiz              = dirname(__DIR__, 2);
     }
 
@@ -528,6 +530,82 @@ class AdminController
         } catch (RuntimeException $e) {
             $this->redirecionarComErro('admin-mesas', $e->getMessage());
         }
+    }
+
+
+    // =========================================================================
+    // Horários de Funcionamento — Listagem
+    // =========================================================================
+
+    /**
+     * Endpoint: GET /public/api/?action=admin-horarios
+     */
+    public function exibirHorarios(): void
+    {
+        $this->exigirAutenticacao();
+
+        $horarios = $this->horarioAdminModel->listar();
+        $erro     = $_GET['erro']    ?? null;
+        $sucesso  = $_GET['sucesso'] ?? null;
+
+        require_once $this->raiz . '/app/views/admin/horarios.php';
+        exit;
+    }
+
+    // =========================================================================
+    // Horários de Funcionamento — Salvar
+    // =========================================================================
+
+    /**
+     * Endpoint: POST /public/api/?action=admin-horario-salvar
+     */
+    public function salvarHorario(): void
+    {
+        $this->exigirAutenticacao();
+
+        if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+            $this->redirecionar('admin-horarios');
+            return;
+        }
+
+        $id             = (int)   ($_POST['id']              ?? 0);
+        $fechado        = isset($_POST['fechado']);
+        $horaAbertura   = trim($_POST['hora_abertura']   ?? '');
+        $horaFechamento = trim($_POST['hora_fechamento'] ?? '');
+
+        if ($id < 1) {
+            $this->redirecionar('admin-horarios');
+            return;
+        }
+
+        // Quando aberto, ambos os horários são obrigatórios e devem ser válidos
+        if (!$fechado) {
+            $regex = '/^([01]\d|2[0-3]):[0-5]\d$/';
+
+            if (empty($horaAbertura) || !preg_match($regex, $horaAbertura)) {
+                $this->redirecionarComErro('admin-horarios', 'Horário de abertura inválido.');
+                return;
+            }
+
+            if (empty($horaFechamento) || !preg_match($regex, $horaFechamento)) {
+                $this->redirecionarComErro('admin-horarios', 'Horário de fechamento inválido.');
+                return;
+            }
+
+            if ($horaFechamento <= $horaAbertura) {
+                $this->redirecionarComErro('admin-horarios', 'O horário de fechamento deve ser posterior ao de abertura.');
+                return;
+            }
+        }
+
+        $this->horarioAdminModel->atualizar(
+            $id,
+            $fechado,
+            $fechado ? null : $horaAbertura,
+            $fechado ? null : $horaFechamento
+        );
+
+        $this->redirecionarComSucesso('admin-horarios', 'Horário atualizado com sucesso!');
     }
 
     // =========================================================================

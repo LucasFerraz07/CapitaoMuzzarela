@@ -4,6 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/x-icon" href="<?= BASE_URL ?>/public/images/favicon.png">
     <link rel="stylesheet" href="<?= BASE_URL ?>/public/css/loginAdmin.css">
     <title>Área Restrita — Capitão Muzzarela</title>
 </head>

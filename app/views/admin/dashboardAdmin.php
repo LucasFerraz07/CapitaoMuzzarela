@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/x-icon" href="<?= BASE_URL ?>/public/images/favicon.png">
     <meta name="robots" content="noindex, nofollow">
     <meta name="description" content="Painel administrativo do Capitão Muzzarela — gerencie reservas, mesas, horários e cardápio.">
     <link rel="stylesheet" href="<?= BASE_URL ?>/public/css/dashboardAdmin.css">

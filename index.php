@@ -28,7 +28,7 @@
           <ul>
             <li><a href="#hero">Home</a></li>
             <li><a href="#sessaoCardapio">Cardápio</a></li>
-            <li><a href="#sessaoGaleria">Galeria</a></li>
+            <li><a href="#sessaoReserva">Galeria</a></li>
             <li><a href="#sessaoIFood">Delivery</a></li>
             <li>
               <!-- Botão que abre o modal (mantém id e classe originais) -->
@@ -39,7 +39,7 @@
       </header>
 
       <main>
-        <section class="hero">
+        <section class="hero" id="hero">
           <div class="esquerda">
             <div class="textos">
               <h1 class="titleSplit">VENHA CONHECER A MELHOR PIZZARIA DA REGIÃO!</h1>
@@ -78,7 +78,7 @@
           </div>
         </section>
 
-        <section class="sessaoCardapio">
+        <section class="sessaoCardapio" id="sessaoCardapio">
           <h2>Destaques do Capitão</h2>
           <ul class="menu">
             <button class="btn-menu" id="btn-pizzas">PIZZAS</button>
@@ -121,7 +121,7 @@
           </div>
         </section>
 
-        <section class="sessaoReserva">
+        <section class="sessaoReserva" id="sessaoReserva">
           <h2>CONHEÇA NOSSO ESPAÇO</h2>
           <!-- Botão na seção reserva — também abre o modal -->
           <button class="btn-reserva">
@@ -130,7 +130,7 @@
           </button>
         </section>
 
-        <section class="sessaoGaleria">
+        <section class="sessaoGaleria" id="sessaoGaleria">
           <div class="galeriaEsquerda">
             <img src="public/images/ambiente1-Galeria.webp" alt="Mesa decorada" />
             <img src="public/images/ambiente2-Galeria.webp" alt="Ambiente interno" />
@@ -147,7 +147,7 @@
           </div>
         </section>
 
-        <section class="sessaoIFood">
+        <section class="sessaoIFood" id="sessaoIFood">
           <img src="public/images/ondaGaleira.svg" alt="" />
           <div class="conteudoSessao">
             <div class="heroiIFood">

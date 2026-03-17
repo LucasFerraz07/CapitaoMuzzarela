@@ -16,6 +16,8 @@ class AdminController
     private ProdutoModel      $produtoModel;
     private MesaAdminModel    $mesaAdminModel;
     private HorarioAdminModel $horarioAdminModel;
+    private UsuarioModel      $usuarioModel;
+    private EmailService      $emailService;
     private string            $raiz;
 
     public function __construct()
@@ -26,6 +28,8 @@ class AdminController
         $this->produtoModel      = new ProdutoModel();
         $this->mesaAdminModel    = new MesaAdminModel();
         $this->horarioAdminModel = new HorarioAdminModel();
+        $this->usuarioModel      = new UsuarioModel();
+        $this->emailService      = new EmailService();
         $this->raiz              = dirname(__DIR__, 2);
     }
 
@@ -537,9 +541,6 @@ class AdminController
     // Horários de Funcionamento — Listagem
     // =========================================================================
 
-    /**
-     * Endpoint: GET /public/api/?action=admin-horarios
-     */
     public function exibirHorarios(): void
     {
         $this->exigirAutenticacao();
@@ -556,9 +557,6 @@ class AdminController
     // Horários de Funcionamento — Salvar
     // =========================================================================
 
-    /**
-     * Endpoint: POST /public/api/?action=admin-horario-salvar
-     */
     public function salvarHorario(): void
     {
         $this->exigirAutenticacao();
@@ -578,9 +576,8 @@ class AdminController
             return;
         }
 
-        // Quando aberto, ambos os horários são obrigatórios e devem ser válidos
         if (!$fechado) {
-            $regex = '/^([01]\d|2[0-3]):[0-5]\d$/';
+            $regex = '/^([01][0-9]|2[0-3]):[0-5][0-9]$/';
 
             if (empty($horaAbertura) || !preg_match($regex, $horaAbertura)) {
                 $this->redirecionarComErro('admin-horarios', 'Horário de abertura inválido.');
@@ -606,6 +603,210 @@ class AdminController
         );
 
         $this->redirecionarComSucesso('admin-horarios', 'Horário atualizado com sucesso!');
+    }
+
+    // =========================================================================
+    // Usuários — Listagem
+    // =========================================================================
+
+    public function exibirUsuarios(): void
+    {
+        $this->exigirAutenticacao();
+
+        $usuarios = $this->usuarioModel->listar();
+        $erro     = $_GET['erro']    ?? null;
+        $sucesso  = $_GET['sucesso'] ?? null;
+
+        require_once $this->raiz . '/app/views/admin/usuarios.php';
+        exit;
+    }
+
+    // =========================================================================
+    // Usuários — Salvar (criar ou editar)
+    // =========================================================================
+
+    public function salvarUsuario(): void
+    {
+        $this->exigirAutenticacao();
+
+        if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+            $this->redirecionar('admin-usuarios');
+            return;
+        }
+
+        $id    = (int)   ($_POST['id']    ?? 0);
+        $nome  = trim($_POST['nome']  ?? '');
+        $email = trim($_POST['email'] ?? '');
+        $senha = trim($_POST['senha'] ?? '');
+
+        // Validações comuns
+        if (empty($nome) || mb_strlen($nome) > 100) {
+            $this->redirecionarComErro('admin-usuarios', 'Nome inválido (máx. 100 caracteres).');
+            return;
+        }
+
+        if (empty($email) || !filter_var($email, FILTER_VALIDATE_EMAIL) || mb_strlen($email) > 150) {
+            $this->redirecionarComErro('admin-usuarios', 'E-mail inválido.');
+            return;
+        }
+
+        try {
+            if ($id > 0) {
+                // Edição — senha não é alterada aqui
+                $this->usuarioModel->atualizar($id, $nome, $email);
+                $this->redirecionarComSucesso('admin-usuarios', 'Usuário atualizado com sucesso!');
+            } else {
+                // Criação — senha obrigatória
+                if (empty($senha) || mb_strlen($senha) < 8) {
+                    $this->redirecionarComErro('admin-usuarios', 'A senha deve ter no mínimo 8 caracteres.');
+                    return;
+                }
+                $this->usuarioModel->criar($nome, $email, $senha);
+                $this->redirecionarComSucesso('admin-usuarios', 'Usuário criado com sucesso!');
+            }
+        } catch (RuntimeException $e) {
+            $this->redirecionarComErro('admin-usuarios', $e->getMessage());
+        }
+    }
+
+    // =========================================================================
+    // Usuários — Alternar ativo/inativo
+    // =========================================================================
+
+    public function alternarAtivoUsuario(): void
+    {
+        $this->exigirAutenticacao();
+
+        $id = (int) ($_GET['id'] ?? 0);
+
+        if ($id < 1) {
+            $this->redirecionar('admin-usuarios');
+            return;
+        }
+
+        try {
+            $this->usuarioModel->alternarAtivo($id, (int) $_SESSION['admin_id']);
+            $this->redirecionar('admin-usuarios');
+        } catch (RuntimeException $e) {
+            $this->redirecionarComErro('admin-usuarios', $e->getMessage());
+        }
+    }
+
+    // =========================================================================
+    // Usuários — Excluir
+    // =========================================================================
+
+    public function excluirUsuario(): void
+    {
+        $this->exigirAutenticacao();
+
+        $id = (int) ($_GET['id'] ?? 0);
+
+        if ($id < 1) {
+            $this->redirecionar('admin-usuarios');
+            return;
+        }
+
+        try {
+            $this->usuarioModel->excluir($id, (int) $_SESSION['admin_id']);
+            $this->redirecionarComSucesso('admin-usuarios', 'Usuário excluído com sucesso!');
+        } catch (RuntimeException $e) {
+            $this->redirecionarComErro('admin-usuarios', $e->getMessage());
+        }
+    }
+
+    // =========================================================================
+    // Usuários — Enviar e-mail de redefinição de senha
+    // =========================================================================
+
+    public function enviarRedefinicaoSenha(): void
+    {
+        $this->exigirAutenticacao();
+
+        $id = (int) ($_GET['id'] ?? 0);
+
+        if ($id < 1) {
+            $this->redirecionar('admin-usuarios');
+            return;
+        }
+
+        $usuario = $this->usuarioModel->buscarPorId($id);
+
+        if (!$usuario) {
+            $this->redirecionarComErro('admin-usuarios', 'Usuário não encontrado.');
+            return;
+        }
+
+        $config = require $this->raiz . '/config/email.php';
+
+        try {
+            $token = $this->usuarioModel->criarTokenRedefinicao($id, $config['token_expiracao_minutos']);
+            $this->emailService->enviarRedefinicaoSenha($usuario['email'], $usuario['nome'], $token);
+            $this->redirecionarComSucesso('admin-usuarios', "E-mail de redefinição enviado para {$usuario['email']}.");
+        } catch (RuntimeException $e) {
+            $this->redirecionarComErro('admin-usuarios', $e->getMessage());
+        }
+    }
+
+    // =========================================================================
+    // Redefinição de senha — Exibir formulário (acesso público via token)
+    // =========================================================================
+
+    public function exibirFormRedefinicao(): void
+    {
+        $token   = trim($_GET['token'] ?? '');
+        $usuario = null;
+        $erro    = null;
+
+        if (empty($token)) {
+            $erro = 'Link inválido.';
+        } else {
+            $usuario = $this->usuarioModel->validarTokenRedefinicao($token);
+            if (!$usuario) {
+                $erro = 'Este link é inválido ou já expirou. Solicite um novo ao administrador.';
+            }
+        }
+
+        require_once $this->raiz . '/app/views/admin/redefinir_senha.php';
+        exit;
+    }
+
+    // =========================================================================
+    // Redefinição de senha — Processar nova senha
+    // =========================================================================
+
+    public function processarRedefinicaoSenha(): void
+    {
+        if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+            $this->redirecionar('admin-login');
+            return;
+        }
+
+        $token          = trim($_POST['token']          ?? '');
+        $novaSenha      = trim($_POST['nova_senha']     ?? '');
+        $confirmaSenha  = trim($_POST['confirma_senha'] ?? '');
+
+        $usuario = $this->usuarioModel->validarTokenRedefinicao($token);
+
+        if (!$usuario) {
+            header("Location: /CapitaoMuzzarela/public/api/?action=redefinir-senha&token=" . urlencode($token) . "&erro=" . urlencode('Link inválido ou expirado.'));
+            exit;
+        }
+
+        if (mb_strlen($novaSenha) < 8) {
+            header("Location: /CapitaoMuzzarela/public/api/?action=redefinir-senha&token=" . urlencode($token) . "&erro=" . urlencode('A senha deve ter no mínimo 8 caracteres.'));
+            exit;
+        }
+
+        if ($novaSenha !== $confirmaSenha) {
+            header("Location: /CapitaoMuzzarela/public/api/?action=redefinir-senha&token=" . urlencode($token) . "&erro=" . urlencode('As senhas não coincidem.'));
+            exit;
+        }
+
+        $this->usuarioModel->redefinirSenha($usuario['id'], $novaSenha, $token);
+
+        header("Location: /CapitaoMuzzarela/public/api/?action=admin-login&sucesso=" . urlencode('Senha redefinida com sucesso! Faça login.'));
+        exit;
     }
 
     // =========================================================================

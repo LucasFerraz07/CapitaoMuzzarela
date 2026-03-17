@@ -45,6 +45,9 @@ declare(strict_types=1);
 // ── Sessão ────────────────────────────────────────────────────────────────────
 session_start();
 
+// ── Autoload do Composer (PHPMailer e outras dependências) ────────────────────
+require_once dirname(__DIR__, 2) . '/vendor/autoload.php';
+
 // ── Cabeçalhos de segurança ───────────────────────────────────────────────────
 header('X-Content-Type-Options: nosniff');
 header('X-Frame-Options: DENY');
@@ -59,6 +62,8 @@ require_once $root . '/app/models/ReservaModel.php';
 require_once $root . '/app/models/AdminModel.php';
 require_once $root . '/app/models/ReservaAdminModel.php';
 require_once $root . '/app/models/HorarioAdminModel.php';
+require_once $root . '/app/models/UsuarioModel.php';
+require_once $root . '/app/services/EmailService.php';
 require_once $root . '/app/models/MesaAdminModel.php';
 require_once $root . '/app/models/CategoriaModel.php';
 require_once $root . '/app/models/ProdutoModel.php';
@@ -116,6 +121,35 @@ switch ($action) {
 
     case 'admin-reserva-status':
         $adminController->atualizarStatusReserva();
+        break;
+
+    // ── Rotas de Usuários ────────────────────────────────────────────────────────
+    case 'admin-usuarios':
+        $adminController->exibirUsuarios();
+        break;
+
+    case 'admin-usuario-salvar':
+        $adminController->salvarUsuario();
+        break;
+
+    case 'admin-usuario-toggle':
+        $adminController->alternarAtivoUsuario();
+        break;
+
+    case 'admin-usuario-excluir':
+        $adminController->excluirUsuario();
+        break;
+
+    case 'admin-usuario-redefinir-senha':
+        $adminController->enviarRedefinicaoSenha();
+        break;
+
+    case 'redefinir-senha':
+        $adminController->exibirFormRedefinicao();
+        break;
+
+    case 'admin-processar-redefinicao':
+        $adminController->processarRedefinicaoSenha();
         break;
 
     // ── Rotas de Horários ────────────────────────────────────────────────────────

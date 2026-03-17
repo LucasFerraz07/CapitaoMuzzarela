@@ -1,0 +1,204 @@
+/* ============================================================
+   public/css/redefinirSenha.css
+   Estilos da tela de Redefinição de Senha — Capitão Muzzarela
+   ============================================================ */
+
+/* ── Reset básico ────────────────────────────────────────── */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* ── Variáveis ───────────────────────────────────────────── */
+:root {
+    --cm-vermelho:   #c2282d;
+    --cm-vermelho-h: #a01f23;
+    --cm-amarelo:    #faba01;
+    --cm-escuro:     #1a1a1a;
+    --cm-cinza:      #4a4a4a;
+    --cm-borda:      #ddd;
+    --cm-fundo:      #f5f5f5;
+    --cm-branco:     #ffffff;
+    --cm-erro:       #c0392b;
+    --cm-sucesso:    #1a7a3c;
+    --radius:        8px;
+    --trans:         0.25s ease;
+}
+
+/* ── Body ────────────────────────────────────────────────── */
+.login-body {
+    font-family: "Poppins", sans-serif;
+    background-color: var(--cm-amarelo);
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem 1rem;
+}
+
+/* ── Card central ────────────────────────────────────────── */
+.login-card {
+    background-color: var(--cm-branco);
+    border-radius: var(--radius);
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2);
+    width: 100%;
+    max-width: 420px;
+    padding: 2.5rem 2rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1.25rem;
+}
+
+/* ── Logo ────────────────────────────────────────────────── */
+.login-logo img {
+    width: 80px;
+    height: 80px;
+    object-fit: contain;
+}
+
+/* ── Título ──────────────────────────────────────────────── */
+.login-titulo {
+    font-size: 1.4rem;
+    font-weight: 800;
+    color: var(--cm-escuro);
+    text-align: center;
+    letter-spacing: 0.5px;
+}
+
+/* ── Subtítulo / saudação ────────────────────────────────── */
+.login-subtitulo {
+    font-size: 0.9rem;
+    color: var(--cm-cinza);
+    text-align: center;
+    line-height: 1.6;
+}
+
+.login-subtitulo strong {
+    color: var(--cm-escuro);
+}
+
+/* ── Alertas ─────────────────────────────────────────────── */
+.login-alerta {
+    width: 100%;
+    padding: 0.75rem 1rem;
+    border-radius: var(--radius);
+    font-size: 0.875rem;
+    font-weight: 500;
+    text-align: center;
+}
+
+.login-alerta--erro {
+    background: #fdedec;
+    border: 1px solid #f5b7b1;
+    color: var(--cm-erro);
+}
+
+.login-alerta--sucesso {
+    background: #eafaf1;
+    border: 1px solid #a9dfbf;
+    color: var(--cm-sucesso);
+}
+
+/* ── Formulário ──────────────────────────────────────────── */
+.login-form {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+/* ── Grupos de campo ─────────────────────────────────────── */
+.campo-grupo {
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+}
+
+.campo-grupo label {
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: var(--cm-escuro);
+}
+
+.campo-grupo input[type="password"] {
+    width: 100%;
+    padding: 0.7rem 1rem;
+    border: 1.5px solid var(--cm-borda);
+    border-radius: 40px;
+    font-size: 0.9rem;
+    font-family: "Poppins", sans-serif;
+    color: var(--cm-escuro);
+    background: var(--cm-branco);
+    outline: none;
+    transition: border-color var(--trans), box-shadow var(--trans);
+}
+
+.campo-grupo input[type="password"]:focus {
+    border-color: var(--cm-amarelo);
+    box-shadow: 0 0 0 3px rgba(250, 186, 1, 0.25);
+}
+
+/* ── Mensagem de erro inline ─────────────────────────────── */
+.campo-erro {
+    font-size: 0.78rem;
+    color: var(--cm-erro);
+    min-height: 1rem;
+    padding-left: 0.5rem;
+}
+
+.obrigatorio {
+    color: var(--cm-vermelho);
+}
+
+/* ── Botão de submit ─────────────────────────────────────── */
+.login-btn {
+    width: 100%;
+    padding: 0.75rem 1rem;
+    background-color: var(--cm-escuro);
+    color: var(--cm-branco);
+    border: none;
+    border-radius: 40px;
+    font-size: 0.95rem;
+    font-weight: 700;
+    font-family: "Poppins", sans-serif;
+    cursor: pointer;
+    margin-top: 0.25rem;
+    transition: all var(--trans);
+}
+
+.login-btn:hover {
+    background-color: var(--cm-vermelho-h);
+    transform: scale(1.02);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+}
+
+/* ── Link de voltar ──────────────────────────────────────── */
+.login-voltar {
+    font-size: 0.82rem;
+    text-align: center;
+    color: var(--cm-cinza);
+}
+
+.login-voltar a {
+    color: var(--cm-cinza);
+    text-decoration: none;
+    font-weight: 600;
+    transition: color var(--trans);
+}
+
+.login-voltar a:hover {
+    color: var(--cm-vermelho);
+}
+
+/* ── Responsividade ──────────────────────────────────────── */
+@media (max-width: 480px) {
+    .login-card {
+        padding: 2rem 1.25rem;
+    }
+
+    .login-titulo {
+        font-size: 1.2rem;
+    }
+}

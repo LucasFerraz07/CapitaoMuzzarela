@@ -1,1 +1,5 @@
+# Dependências do Composer — não subir para o repositório
 /vendor/
+
+# Configurações sensíveis — contém credenciais de e-mail
+/config/email.php

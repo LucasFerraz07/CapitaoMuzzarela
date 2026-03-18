@@ -1,4 +1,5 @@
 <?php
+
 /**
  * app/controllers/AdminController.php
  *
@@ -16,21 +17,23 @@ class AdminController
     private ProdutoModel      $produtoModel;
     private MesaAdminModel    $mesaAdminModel;
     private HorarioAdminModel $horarioAdminModel;
-    private UsuarioModel      $usuarioModel;
-    private EmailService      $emailService;
-    private string            $raiz;
+    private UsuarioModel         $usuarioModel;
+    private EmailService         $emailService;
+    private CardapioPublicoModel $cardapioPublicoModel;
+    private string               $raiz;
 
     public function __construct()
     {
-        $this->adminModel        = new AdminModel();
-        $this->reservaAdminModel = new ReservaAdminModel();
-        $this->categoriaModel    = new CategoriaModel();
-        $this->produtoModel      = new ProdutoModel();
-        $this->mesaAdminModel    = new MesaAdminModel();
-        $this->horarioAdminModel = new HorarioAdminModel();
-        $this->usuarioModel      = new UsuarioModel();
-        $this->emailService      = new EmailService();
-        $this->raiz              = dirname(__DIR__, 2);
+        $this->adminModel           = new AdminModel();
+        $this->reservaAdminModel    = new ReservaAdminModel();
+        $this->categoriaModel       = new CategoriaModel();
+        $this->produtoModel         = new ProdutoModel();
+        $this->mesaAdminModel       = new MesaAdminModel();
+        $this->horarioAdminModel    = new HorarioAdminModel();
+        $this->usuarioModel         = new UsuarioModel();
+        $this->emailService         = new EmailService();
+        $this->cardapioPublicoModel = new CardapioPublicoModel();
+        $this->raiz                 = dirname(__DIR__, 2);
     }
 
     // =========================================================================
@@ -91,7 +94,8 @@ class AdminController
         if (ini_get('session.use_cookies')) {
             $params = session_get_cookie_params();
             setcookie(
-                session_name(), '',
+                session_name(),
+                '',
                 time() - 42000,
                 $params['path'],
                 $params['domain'],
@@ -360,7 +364,7 @@ class AdminController
             'preco'               => number_format((float) $preco, 2, '.', ''),
             'disponivel'          => $disponivel,
             'destaque'            => $destaque,
-            'categoria_produto_id'=> $categoriaId,
+            'categoria_produto_id' => $categoriaId,
             'imagem'              => $nomeImagem,
         ];
 
@@ -809,6 +813,50 @@ class AdminController
         exit;
     }
 
+
+    // =========================================================================
+    // Cardápio Público — Destaques por Categoria (AJAX)
+    // =========================================================================
+
+    /**
+     * Endpoint: GET /public/api/?action=cardapio-destaques&categoria=Pizzas
+     *
+     * Retorna JSON com os produtos em destaque da categoria informada.
+     * Usado pela landing page para carregar os cards via AJAX.
+     */
+    public function getDestaquesCardapio(): void
+    {
+        if ($_SERVER['REQUEST_METHOD'] !== 'GET') {
+            $this->jsonResponse(false, 'Método não permitido.', [], 405);
+            return;
+        }
+
+        $categoria = trim($_GET['categoria'] ?? '');
+
+        $permitidas = ['Pizzas', 'Lanches', 'Bebidas', 'Sobremesas'];
+
+        if (empty($categoria) || !in_array($categoria, $permitidas, true)) {
+            $this->jsonResponse(false, 'Categoria inválida.');
+            return;
+        }
+
+        $produtos = $this->cardapioPublicoModel->getDestaquesPorCategoria($categoria);
+
+        $this->jsonResponse(true, '', ['produtos' => $produtos]);
+    }
+
+    /**
+     * Endpoint: GET /public/api/?action=cardapio-categorias-ativas
+     *
+     * Retorna quais das 4 categorias fixas possuem destaques disponíveis.
+     * Usado ao carregar a página para ocultar botões vazios.
+     */
+    public function getCategoriasAtivas(): void
+    {
+        $categorias = $this->cardapioPublicoModel->getCategoriasComDestaques();
+        $this->jsonResponse(true, '', ['categorias' => $categorias]);
+    }
+
     // =========================================================================
     // Helpers públicos
     // =========================================================================
@@ -829,6 +877,24 @@ class AdminController
     // =========================================================================
     // Helpers privados
     // =========================================================================
+
+    
+    private function jsonResponse(
+        bool   $sucesso,
+        string $mensagem = '',
+        array  $extra    = [],
+        int    $httpCode = 200
+    ): void {
+        http_response_code($httpCode);
+        header('Content-Type: application/json; charset=utf-8');
+
+        echo json_encode(
+            array_merge(['sucesso' => $sucesso, 'mensagem' => $mensagem], $extra),
+            JSON_UNESCAPED_UNICODE
+        );
+
+        exit;
+    }
 
     private function validarData(string $data): bool
     {

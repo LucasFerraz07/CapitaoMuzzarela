@@ -67,7 +67,7 @@
           </div>
 
           <div class="direita">
-            <img  data-speed="0.85"
+            <img data-speed="0.85"
               src="public/images/pizzaInteira.svg"
               alt="Imagem de uma pizza deliciosa"
               class="pizzaHero" />
@@ -87,28 +87,8 @@
             <button class="btn-menu" id="btn-sobremesas">SOBREMESAS</button>
           </ul>
 
-          <div class="cards">
-            <div class="card">
-              <img src="public/images/pizzaCardapio.webp" alt="Pizza Calabresa" />
-              <h3>Calabresa</h3>
-              <p>Muzzarela, calabresa, cebola e orégano</p>
-            </div>
-            <div class="card">
-              <img src="public/images/pizzaCardapio.webp" alt="Pizza Calabresa" />
-              <h3>Calabresa</h3>
-              <p>Muzzarela, calabresa, cebola e orégano</p>
-            </div>
-            <div class="card">
-              <img src="public/images/pizzaCardapio.webp" alt="Pizza Calabresa" />
-              <h3>Calabresa</h3>
-              <p>Muzzarela, calabresa, cebola e orégano</p>
-            </div>
-            <div class="card">
-              <img src="public/images/pizzaCardapio.webp" alt="Pizza Calabresa" />
-              <h3>Calabresa</h3>
-              <p>Muzzarela, calabresa, cebola e orégano</p>
-            </div>
-          </div>
+          <!-- Cards preenchidos via AJAX pelo cardapioPublico.js -->
+          <div class="cards"></div>
 
           <div class="botoesCaradapio">
             <button class="btn-cardapio">
@@ -186,7 +166,7 @@
         <div class="conteudoFooter">
           <div class="logotipo">
             <a href="public/api/?action=admin-login">
-            <img src="public/images/capitaoLogo-Footer.webp" alt="Logo do Capitão Muzzarela" />
+              <img src="public/images/capitaoLogo-Footer.webp" alt="Logo do Capitão Muzzarela" />
             </a>
             <img src="public/images/divisorFooter.svg" alt="Divisor decorativo" />
           </div>
@@ -224,6 +204,9 @@
 
   <!-- Script do sistema de reservas -->
   <script src="public/js/reserva.js"></script>
+
+  <!-- Script do sistema de destaques do cardápio -->
+  <script src="public/js/cardapioPublico.js"></script>
 </body>
 
 </html>

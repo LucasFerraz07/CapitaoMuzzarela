@@ -91,10 +91,10 @@
           <div class="cards"></div>
 
           <div class="botoesCaradapio">
-            <button class="btn-cardapio">
+            <a href="public/api/?action=cardapio-completo" class="btn-cardapio">
               <img src="public/images/cardapioButton.svg" alt="Ícone de cardápio" />
               Acesse nosso cardápio completo
-            </button>
+            </a>
             <button class="btn-delivery">
               <img src="public/images/pizza.svg" alt="Ícone de Pizza" /> Link para Delivery
             </button>

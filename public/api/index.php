@@ -84,6 +84,10 @@ $adminController   = new AdminController();
 switch ($action) {
 
     // ── Rotas públicas do Cardápio ───────────────────────────────────────────────
+    case 'cardapio-completo':
+        $adminController->exibirCardapioCompleto();
+        break;
+
     case 'cardapio-destaques':
         $adminController->getDestaquesCardapio();
         break;
@@ -91,7 +95,7 @@ switch ($action) {
     case 'cardapio-categorias-ativas':
         $adminController->getCategoriasAtivas();
         break;
-        
+
     // ── Rotas de Reservas ─────────────────────────────────────────────────────
     case 'horarios-funcionamento':
         $reservaController->getHorariosFuncionamento();

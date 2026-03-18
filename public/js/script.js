@@ -1,125 +1,131 @@
 gsap.registerPlugin(ScrollTrigger, ScrollSmoother, ScrollToPlugin, SplitText);
 
-//ESTOU COM PROBLEMAS AQUI, FAIXAS BRANCAS APARECENDO. -->
+// ── Desativa data-speed em telas pequenas ─────────────────
+// O efeito parallax do ScrollSmoother causa sobreposição de
+// elementos em mobile pois o layout não tem espaço para
+// absorver o deslocamento gerado pelo data-speed.
+const isMobile = window.innerWidth <= 768;
 
+if (isMobile) {
+    // Remove o atributo data-speed de todos os elementos que o possuem
+    document.querySelectorAll('[data-speed]').forEach((el) => {
+        el.removeAttribute('data-speed');
+    });
+}
+
+// ── ScrollSmoother ────────────────────────────────────────
 ScrollSmoother.create({
-  smooth: 0.5, // how long (in seconds) it takes to "catch up" to the native scroll position
-  effects: true, // looks for data-speed and data-lag attributes on elements
+    smooth: 0.5,
+    effects: !isMobile, // desativa os efeitos de parallax em mobile
 });
 
-// Animação Títulos Sequencial
-const tl = gsap.timeline(); // Cria uma timeline para sequenciar
+// ── Animação Títulos Sequencial ───────────────────────────
+const tl = gsap.timeline();
 
-// Coletar todos os caracteres de .titleSplit
 const allTitleChars = [];
-const titleSplit = document.querySelectorAll(".titleSplit");
+const titleSplit = document.querySelectorAll('.titleSplit');
 titleSplit.forEach((element) => {
-  const split = SplitText.create(element, {
-    type: "lines, words, chars",
-    mask: "lines",
-  });
-  allTitleChars.push(...split.chars); // Adiciona todos os chars a um array
+    const split = SplitText.create(element, {
+        type: 'lines, words, chars',
+        mask: 'lines',
+    });
+    allTitleChars.push(...split.chars);
 });
 
-// Anima .titleSplit primeiro
 tl.from(allTitleChars, {
-  y: 30,
-  opacity: 0,
-  stagger: 0.045,
-  duration: 0.5,
+    y: 30,
+    opacity: 0,
+    stagger: 0.045,
+    duration: 0.5,
 });
 
-// Coletar todos os caracteres de .textSplit
 const allTextChars = [];
-const textSplit = document.querySelectorAll(".textSplit"); // Use .textSplit ou .textoSplit conforme sua classe real
+const textSplit = document.querySelectorAll('.textSplit');
 textSplit.forEach((element) => {
-  const split = SplitText.create(element, {
-    type: "lines, words, chars",
-    mask: "lines",
-  });
-  allTextChars.push(...split.chars);
+    const split = SplitText.create(element, {
+        type: 'lines, words, chars',
+        mask: 'lines',
+    });
+    allTextChars.push(...split.chars);
 });
 
-// Anima .textSplit depois
 tl.from(allTextChars, {
-  y: 30,
-  opacity: 0,
-  stagger: 0.03,
-  duration: 0.4,
+    y: 30,
+    opacity: 0,
+    stagger: 0.03,
+    duration: 0.4,
 });
 
-// Scroll To entre sections
-
-// Detect if a link's href goes to the current page
+// ── Scroll To entre sections ──────────────────────────────
 function getSamePageAnchor(link) {
-  if (
-    link.protocol !== window.location.protocol ||
-    link.host !== window.location.host ||
-    link.pathname !== window.location.pathname ||
-    link.search !== window.location.search
-  ) {
-    return false;
-  }
-
-  return link.hash;
+    if (
+        link.protocol !== window.location.protocol ||
+        link.host !== window.location.host ||
+        link.pathname !== window.location.pathname ||
+        link.search !== window.location.search
+    ) {
+        return false;
+    }
+    return link.hash;
 }
 
-// Scroll to a given hash, preventing the event given if there is one
 function scrollToHash(hash, e) {
-  const elem = hash ? document.querySelector(hash) : false;
-  if (elem) {
-    if (e) e.preventDefault();
-    gsap.to(window, { scrollTo: elem });
-  }
+    const elem = hash ? document.querySelector(hash) : false;
+    if (elem) {
+        if (e) e.preventDefault();
+        gsap.to(window, { scrollTo: elem });
+    }
 }
 
-// If a link's href is within the current page, scroll to it instead
-document.querySelectorAll("nav a[href]").forEach((a) => {
-  a.addEventListener("click", (e) => {
-    scrollToHash(getSamePageAnchor(a), e);
-  });
+document.querySelectorAll('nav a[href]').forEach((a) => {
+    a.addEventListener('click', (e) => {
+        scrollToHash(getSamePageAnchor(a), e);
+    });
 });
 
-// Scroll to the element in the URL's hash on load
 scrollToHash(window.location.hash);
 
-//Animações na section Galeria
+// ── Animações na section Galeria ──────────────────────────
+// Em mobile as animações de galeria também são desativadas
+// pois o layout em coluna única não tem profundidade suficiente
+// para o efeito de entrada fazer sentido visual.
+if (!isMobile) {
+    gsap.from('.galeriaEsquerda img', {
+        y: 320,
+        opacity: 0,
+        stagger: 0.1,
+        duration: 1.4,
+        scrollTrigger: {
+            trigger: '.sessaoGaleria',
+            markers: false,
+            start: '0% 50%',
+            end: '100% 45%',
+        },
+    });
 
-gsap.from(".galeriaEsquerda img", {
-  y: 320,
-  opacity: 0,
-  stagger: 0.1,
-  duration: 1.4,
-  scrollTrigger: {
-    trigger: ".sessaoGaleria",
-    markers: false,
-    start: "0% 50%",
-    end: "100% 45%",
-  },
-});
+    gsap.from('.galeriaCentro img', {
+        y: -100,
+        opacity: 0,
+        stagger: 0.1,
+        duration: 1.4,
+        scrollTrigger: {
+            trigger: '.sessaoGaleria',
+            markers: false,
+            start: '0% 50%',
+            end: '100% 45%',
+        },
+    });
 
-gsap.from(".galeriaCentro img", {
-  y: -100,
-  opacity: 0,
-  stagger: 0.1,
-  duration: 1.4,
-  scrollTrigger: {
-    trigger: ".sessaoGaleria",
-    markers: false,
-    start: "0% 50%",
-    end: "100% 45%",
-  },
-});
-
-gsap.from(".galeriaDireita img", {
-  y: 320,
-  opacity: 0,
-  stagger: 0.1,
-  duration: 1.4,
-  scrollTrigger: {
-    trigger: ".sessaoGaleria",
-    markers: false,
-    start: "0% 50%",
-    end: "100% 45%",
-  },
-});
+    gsap.from('.galeriaDireita img', {
+        y: 320,
+        opacity: 0,
+        stagger: 0.1,
+        duration: 1.4,
+        scrollTrigger: {
+            trigger: '.sessaoGaleria',
+            markers: false,
+            start: '0% 50%',
+            end: '100% 45%',
+        },
+    });
+}

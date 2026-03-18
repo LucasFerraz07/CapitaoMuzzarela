@@ -1,0 +1,284 @@
+/* ============================================================
+   public/css/cardapio.css
+   Página do Cardápio Completo — Capitão Muzzarela
+   Estética de cardápio físico, paleta bege/sépia
+   ============================================================ */
+
+/* ── Reset ───────────────────────────────────────────────── */
+*, *::before, *::after {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* ── Variáveis ───────────────────────────────────────────── */
+:root {
+    --bege-claro:    #faf3e0;
+    --bege-medio:    #f0e4c3;
+    --bege-escuro:   #d9c9a0;
+    --sepia:         #8b6f47;
+    --sepia-escuro:  #5c4422;
+    --vermelho:      #c2282d;
+    --texto:         #3a2a10;
+    --texto-suave:   #7a6040;
+    --fonte-titulo:  'Playfair Display', Georgia, serif;
+    --fonte-corpo:   'Poppins', sans-serif;
+}
+
+/* ── Body ────────────────────────────────────────────────── */
+body {
+    background-color: var(--bege-claro);
+    background-image:
+        repeating-linear-gradient(
+            0deg,
+            transparent,
+            transparent 39px,
+            rgba(139, 111, 71, 0.06) 39px,
+            rgba(139, 111, 71, 0.06) 40px
+        );
+    color: var(--texto);
+    font-family: var(--fonte-corpo);
+    min-height: 100vh;
+}
+
+/* ── Cabeçalho ───────────────────────────────────────────── */
+.cardapio-header {
+    background-color: var(--sepia-escuro);
+    padding: 1.5rem 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+}
+
+.cardapio-voltar {
+    color: var(--bege-medio);
+    text-decoration: none;
+    font-size: 0.85rem;
+    font-weight: 500;
+    letter-spacing: 0.5px;
+    transition: color 0.2s;
+    white-space: nowrap;
+    min-width: 80px;
+}
+
+.cardapio-voltar:hover {
+    color: #fff;
+}
+
+.cardapio-header__centro {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    text-align: center;
+    flex-direction: column;
+}
+
+.cardapio-header__logo {
+    width: 60px;
+    height: 60px;
+    object-fit: contain;
+}
+
+.cardapio-header__nome {
+    font-family: var(--fonte-titulo);
+    font-size: clamp(1.4rem, 3vw, 2rem);
+    font-weight: 900;
+    color: #fff;
+    letter-spacing: 2px;
+    line-height: 1.1;
+}
+
+.cardapio-header__subtitulo {
+    font-size: 0.75rem;
+    font-weight: 400;
+    color: var(--bege-escuro);
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    margin-top: 0.2rem;
+}
+
+.cardapio-header__espacador {
+    min-width: 80px;
+}
+
+/* ── Ornamento decorativo ────────────────────────────────── */
+.cardapio-ornamento {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1.25rem 2rem;
+    max-width: 760px;
+    margin: 0 auto;
+}
+
+.ornamento-linha {
+    flex: 1;
+    height: 1px;
+    background: linear-gradient(to right, transparent, var(--bege-escuro), transparent);
+}
+
+.ornamento-simbolo {
+    font-size: 0.85rem;
+    color: var(--sepia);
+    flex-shrink: 0;
+}
+
+/* ── Conteúdo principal ──────────────────────────────────── */
+.cardapio-main {
+    max-width: 760px;
+    margin: 0 auto;
+    padding: 0 2rem 4rem;
+    display: flex;
+    flex-direction: column;
+    gap: 3rem;
+}
+
+/* ── Seção de categoria ──────────────────────────────────── */
+.cardapio-secao__cabecalho {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+}
+
+.cardapio-secao__linha {
+    flex: 1;
+    height: 1px;
+    background-color: var(--bege-escuro);
+}
+
+.cardapio-secao__titulo {
+    font-family: var(--fonte-titulo);
+    font-size: clamp(1.3rem, 2.5vw, 1.7rem);
+    font-weight: 700;
+    color: var(--sepia-escuro);
+    letter-spacing: 1.5px;
+    white-space: nowrap;
+    text-transform: uppercase;
+}
+
+/* ── Lista de produtos ───────────────────────────────────── */
+.cardapio-lista {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+}
+
+/* ── Item individual ─────────────────────────────────────── */
+.cardapio-item {
+    display: flex;
+    align-items: baseline;
+    gap: 0.5rem;
+    padding: 0.9rem 0;
+    border-bottom: 1px dashed var(--bege-escuro);
+}
+
+.cardapio-item:last-child {
+    border-bottom: none;
+}
+
+.cardapio-item__esquerda {
+    display: flex;
+    flex-direction: column;
+    gap: 0.2rem;
+    flex-shrink: 0;
+    max-width: 65%;
+}
+
+.cardapio-item__nome {
+    font-family: var(--fonte-titulo);
+    font-size: 1.05rem;
+    font-weight: 700;
+    color: var(--texto);
+    line-height: 1.2;
+}
+
+.cardapio-item__descricao {
+    font-size: 0.8rem;
+    font-weight: 300;
+    color: var(--texto-suave);
+    line-height: 1.4;
+    font-style: italic;
+}
+
+/* Pontilhado entre nome e preço */
+.cardapio-item__pontilhado {
+    flex: 1;
+    border-bottom: 2px dotted var(--bege-escuro);
+    margin-bottom: 4px;
+    min-width: 20px;
+}
+
+.cardapio-item__preco {
+    font-family: var(--fonte-titulo);
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--vermelho);
+    white-space: nowrap;
+    flex-shrink: 0;
+}
+
+/* ── Mensagem de cardápio vazio ──────────────────────────── */
+.cardapio-vazio {
+    text-align: center;
+    color: var(--texto-suave);
+    font-size: 1rem;
+    font-style: italic;
+    padding: 4rem 0;
+}
+
+/* ── Rodapé ──────────────────────────────────────────────── */
+.cardapio-footer {
+    text-align: center;
+    padding: 2rem;
+    color: var(--texto-suave);
+    font-size: 0.82rem;
+    line-height: 1.8;
+}
+
+.cardapio-footer .cardapio-ornamento {
+    margin-bottom: 1rem;
+}
+
+.cardapio-footer__aviso {
+    font-size: 0.72rem;
+    font-style: italic;
+    color: var(--sepia);
+    margin-top: 0.5rem;
+}
+
+/* ── Responsividade ──────────────────────────────────────── */
+@media (max-width: 600px) {
+    .cardapio-header {
+        padding: 1.25rem 1rem;
+    }
+
+    .cardapio-main {
+        padding: 0 1rem 3rem;
+    }
+
+    .cardapio-item__esquerda {
+        max-width: 55%;
+    }
+
+    .cardapio-header__espacador {
+        display: none;
+    }
+}
+
+@media print {
+    body {
+        background: #fff;
+        background-image: none;
+    }
+
+    .cardapio-header {
+        background: #000;
+    }
+
+    .cardapio-voltar {
+        display: none;
+    }
+}

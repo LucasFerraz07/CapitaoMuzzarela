@@ -76,4 +76,41 @@ class CardapioPublicoModel
 
         return array_column($stmt->fetchAll(), 'nome');
     }
+
+    /**
+     * Retorna todos os produtos disponíveis agrupados por categoria.
+     * Usado na página de cardápio completo.
+     * Ordem: categorias ativas, produtos em ordem alfabética dentro de cada uma.
+     *
+     * @return array<string, array>  ['Pizzas' => [...produtos], 'Bebidas' => [...], ...]
+     */
+    public function getTodosPorCategoria(): array
+    {
+        $stmt = $this->pdo->query("
+            SELECT
+                c.nome  AS categoria,
+                p.nome,
+                p.descricao,
+                p.preco
+            FROM   produtos p
+            INNER  JOIN categoria_produto c ON c.id = p.categoria_produto_id
+            WHERE  p.disponivel = 1
+              AND  c.ativo      = 1
+            ORDER  BY c.nome ASC, p.nome ASC
+        ");
+
+        $rows = $stmt->fetchAll();
+
+        // Agrupa os produtos pelo nome da categoria
+        $agrupados = [];
+        foreach ($rows as $row) {
+            $agrupados[$row['categoria']][] = [
+                'nome'      => $row['nome'],
+                'descricao' => $row['descricao'],
+                'preco'     => $row['preco'],
+            ];
+        }
+
+        return $agrupados;
+    }
 }

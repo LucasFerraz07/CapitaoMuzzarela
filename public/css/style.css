@@ -48,10 +48,6 @@ header {
   align-items: center;
   position: absolute;
   top: 0;
-  /* position: sticky;
-  top: 0;
-  background-color: #faf2f0;
-  z-index: 1000; */
 
   nav ul {
     align-items: center;
@@ -256,6 +252,7 @@ header {
     align-items: center;
 
     .btn-cardapio {
+      text-decoration: none;
       width: 28vw;
       gap: 16px;
       background-color: #c2282d;
@@ -481,4 +478,279 @@ footer {
       }
     }
   }
+}
+
+/* ============================================================
+   RESPONSIVIDADE — Cole este bloco ao final do style.css
+   Breakpoints: 768px (tablet), 480px (mobile), 360px (mobile sm)
+   ============================================================ */
+
+/* ── Tablet: até 768px ───────────────────────────────────── */
+@media (max-width: 840px) {
+
+    /* Header — volta ao fluxo normal do documento */
+    header {
+        position: relative;
+        top: auto;
+        background-color: #faf2f0;
+        padding: 1rem 5vw;
+
+        nav ul {
+            gap: 0 4vw;
+            margin-right: 0;
+
+            a { font-size: 16px; }
+
+            button { font-size: 16px; padding: 8px 16px; }
+        }
+    }
+
+    /* Hero — remove padding-top que compensava o header absoluto */
+    .hero {
+        flex-direction: column;
+        padding: 2rem 6vw 0;
+        align-items: center;
+        gap: 2rem;
+
+        .esquerda {
+            margin-top: 0;
+            align-items: center;
+            text-align: center;
+
+            .textos {
+                h1 { font-size: 6vw; }
+                p  { width: 100%; font-size: 16px; margin-top: 1rem; }
+            }
+
+            .botoes {
+                align-items: center;
+
+                .reserva-hero {
+                    width: auto;
+                    font-size: 16px;
+                }
+            }
+        }
+
+        .direita {
+            width: 80%;
+            justify-content: center;
+
+            .folhaHero { width: 8%; right: 20px; }
+        }
+    }
+
+    /* Botão delivery */
+    .btn-delivery {
+        width: auto;
+        font-size: 16px;
+    }
+
+    /* Seção Cardápio */
+    .sessaoCardapio {
+        padding: 6vw 4vw;
+        gap: 2rem;
+
+        h2 { font-size: 32px; }
+
+        .menu {
+            gap: 16px;
+            flex-wrap: wrap;
+            justify-content: center;
+
+            button {
+                width: 40vw;
+                font-size: 16px;
+                padding: 12px;
+            }
+        }
+
+        .cards {
+            flex-wrap: wrap;
+            gap: 32px;
+            justify-content: center;
+
+            .card { width: calc(50% - 16px); }
+        }
+
+        .botoesCaradapio {
+            .btn-cardapio {
+                width: auto;
+                font-size: 16px;
+            }
+        }
+    }
+
+    /* Seção Reserva */
+    .sessaoReserva {
+        height: 60vh;
+
+        h2 { font-size: 28px; }
+    }
+
+    /* Seção Galeria */
+    .sessaoGaleria {
+        flex-direction: column;
+        gap: 2rem;
+        padding: 6vw 4vw;
+    }
+
+    /* Seção iFood */
+    .sessaoIFood .conteudoSessao {
+        flex-direction: column;
+        align-items: center;
+        padding: 8vw 6vw;
+
+        .heroiIFood { width: 70%; }
+
+        .conteudoIFood {
+            width: 100%;
+            gap: 2rem;
+
+            h2 { font-size: 28px; }
+        }
+    }
+
+    /* Footer */
+    footer .conteudoFooter {
+        flex-direction: column;
+        height: auto;
+        gap: 2rem;
+        padding: 4rem 6vw;
+
+        .logotipo {
+            width: 100%;
+            justify-content: center;
+
+            img { width: 120px; height: 120px; }
+        }
+
+        .info {
+            gap: 3rem;
+
+            .midia {
+                gap: 1rem;
+
+                .redes img { width: 36px; }
+            }
+
+            .endereco {
+                gap: 1rem;
+
+                p { width: 100%; }
+            }
+        }
+    }
+}
+
+/* ── Mobile: até 480px ───────────────────────────────────── */
+@media (max-width: 480px) {
+
+    /* Header — oculta nav em telas muito pequenas */
+    header {
+        position: relative;
+        top: auto;
+        background-color: #faf2f0;
+        padding: 1rem 4vw;
+        justify-content: center;
+
+        nav { display: none; }
+    }
+
+    /* Hero */
+    .hero {
+        padding: 1rem 6vw 0;
+
+        .esquerda {
+            .textos {
+                h1 { font-size: 8.5vw; }
+                p  { font-size: 14px; }
+            }
+
+            .botoes .reserva-hero { font-size: 14px; }
+        }
+
+        .direita { width: 100%; }
+    }
+
+    /* Botão delivery */
+    .btn-delivery {
+        font-size: 14px;
+        width: 100%;
+        justify-content: center;
+    }
+
+    /* Seção Cardápio */
+    .sessaoCardapio {
+        h2 { font-size: 24px; text-align: center; }
+
+        .menu {
+            gap: 12px;
+
+            button {
+                width: 42vw;
+                font-size: 14px;
+                padding: 10px;
+            }
+        }
+
+        .cards {
+            flex-direction: column;
+            align-items: center;
+
+            .card { width: 90%; }
+        }
+
+        .botoesCaradapio .btn-cardapio {
+            width: 90%;
+            font-size: 14px;
+            text-align: center;
+            justify-content: center;
+        }
+    }
+
+    /* Seção Reserva */
+    .sessaoReserva {
+        height: 50vh;
+
+        h2 { font-size: 22px; text-align: center; padding: 0 1rem; }
+    }
+
+    /* Seção iFood */
+    .sessaoIFood .conteudoSessao {
+        .heroiIFood { width: 90%; }
+
+        .conteudoIFood {
+            h2 { font-size: 22px; }
+
+            .checksIFood li { font-size: 16px; gap: 12px; }
+        }
+    }
+
+    /* Footer */
+    footer .conteudoFooter {
+        .info {
+            flex-direction: column;
+            gap: 2rem;
+
+            .midia .redes img { width: 32px; }
+        }
+    }
+}
+
+/* ── Mobile pequeno: até 360px ───────────────────────────── */
+@media (max-width: 360px) {
+
+    .hero .esquerda .textos {
+        h1 { font-size: 9.5vw; }
+        p  { font-size: 13px; }
+    }
+
+    .sessaoCardapio {
+        .menu button { width: 90%; }
+    }
+
+    .sessaoIFood .conteudoSessao .conteudoIFood {
+        h2 { font-size: 18px; }
+    }
 }

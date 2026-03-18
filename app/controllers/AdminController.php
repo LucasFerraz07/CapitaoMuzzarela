@@ -814,6 +814,25 @@ class AdminController
     }
 
 
+
+    // =========================================================================
+    // Cardápio Completo — Página pública
+    // =========================================================================
+
+    /**
+     * Endpoint: GET /public/api/?action=cardapio-completo
+     *
+     * Exibe a página pública do cardápio completo com todos os produtos
+     * disponíveis agrupados por categoria.
+     */
+    public function exibirCardapioCompleto(): void
+    {
+        $produtos = $this->cardapioPublicoModel->getTodosPorCategoria();
+
+        require_once $this->raiz . '/app/views/cardapio.php';
+        exit;
+    }
+
     // =========================================================================
     // Cardápio Público — Destaques por Categoria (AJAX)
     // =========================================================================
@@ -878,7 +897,7 @@ class AdminController
     // Helpers privados
     // =========================================================================
 
-    
+
     private function jsonResponse(
         bool   $sucesso,
         string $mensagem = '',

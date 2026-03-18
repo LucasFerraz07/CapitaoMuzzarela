@@ -16,7 +16,7 @@ function escapeJs(string $valor): string
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
-    <meta<link rel="stylesheet" href="<?= BASE_URL ?>/public/css/dashboardAdmin.css"> name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" type="image/x-icon" href="<?= BASE_URL ?>/public/images/favicon.png">
     <meta name="robots" content="noindex, nofollow">
     <meta name="description" content="Gestão do cardápio — Painel Administrativo Capitão Muzzarela.">

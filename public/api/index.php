@@ -1,4 +1,5 @@
 <?php
+
 /**
  * public/api/index.php
  *
@@ -62,6 +63,7 @@ require_once $root . '/app/models/ReservaModel.php';
 require_once $root . '/app/models/AdminModel.php';
 require_once $root . '/app/models/ReservaAdminModel.php';
 require_once $root . '/app/models/HorarioAdminModel.php';
+require_once $root . '/app/models/CardapioPublicoModel.php';
 require_once $root . '/app/models/UsuarioModel.php';
 require_once $root . '/app/services/EmailService.php';
 require_once $root . '/app/models/MesaAdminModel.php';
@@ -81,6 +83,15 @@ $adminController   = new AdminController();
 
 switch ($action) {
 
+    // ── Rotas públicas do Cardápio ───────────────────────────────────────────────
+    case 'cardapio-destaques':
+        $adminController->getDestaquesCardapio();
+        break;
+
+    case 'cardapio-categorias-ativas':
+        $adminController->getCategoriasAtivas();
+        break;
+        
     // ── Rotas de Reservas ─────────────────────────────────────────────────────
     case 'horarios-funcionamento':
         $reservaController->getHorariosFuncionamento();

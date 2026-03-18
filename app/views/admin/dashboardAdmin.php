@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -9,6 +10,7 @@
     <link rel="stylesheet" href="<?= BASE_URL ?>/public/css/dashboardAdmin.css">
     <title>Painel Administrativo — Capitão Muzzarela</title>
 </head>
+
 <body>
 
     <!-- ╔══════════════════════════════════════════════════════╗ -->
@@ -19,8 +21,7 @@
             <img
                 src="<?= BASE_URL ?>/public/images/capitaoLogo-Header.webp"
                 alt="Logo Capitão Muzzarela"
-                class="admin-header__logo"
-            >
+                class="admin-header__logo">
             <span class="admin-header__titulo">Painel Administrativo</span>
         </div>
 
@@ -87,6 +88,16 @@
                 <span class="admin-card__seta" aria-hidden="true">→</span>
             </a>
 
+            <!-- Card: Usuários -->
+            <a href="<?= BASE_URL ?>/public/api/?action=admin-usuarios" class="admin-card" aria-label="Gerenciar usuários">
+                <div class="admin-card__icone" aria-hidden="true">👥</div>
+                <div class="admin-card__conteudo">
+                    <h2 class="admin-card__titulo">Usuários</h2>
+                    <p class="admin-card__descricao">Gerencie os administradores com acesso ao painel.</p>
+                </div>
+                <span class="admin-card__seta" aria-hidden="true">→</span>
+            </a>
+
         </nav>
 
     </main>
@@ -99,4 +110,5 @@
     </footer>
 
 </body>
+
 </html>

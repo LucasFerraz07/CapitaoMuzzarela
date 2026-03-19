@@ -793,23 +793,23 @@ class AdminController
         $usuario = $this->usuarioModel->validarTokenRedefinicao($token);
 
         if (!$usuario) {
-            header("Location: /CapitaoMuzzarela/public/api/?action=redefinir-senha&token=" . urlencode($token) . "&erro=" . urlencode('Link inválido ou expirado.'));
+            header("Location: " . BASE_URL . "/public/api/?action=redefinir-senha&token=" . urlencode($token) . "&erro=" . urlencode('Link inválido ou expirado.'));
             exit;
         }
 
         if (mb_strlen($novaSenha) < 8) {
-            header("Location: /CapitaoMuzzarela/public/api/?action=redefinir-senha&token=" . urlencode($token) . "&erro=" . urlencode('A senha deve ter no mínimo 8 caracteres.'));
+            header("Location: " . BASE_URL . "/public/api/?action=redefinir-senha&token=" . urlencode($token) . "&erro=" . urlencode('A senha deve ter no mínimo 8 caracteres.'));
             exit;
         }
 
         if ($novaSenha !== $confirmaSenha) {
-            header("Location: /CapitaoMuzzarela/public/api/?action=redefinir-senha&token=" . urlencode($token) . "&erro=" . urlencode('As senhas não coincidem.'));
+            header("Location: " . BASE_URL . "/public/api/?action=redefinir-senha&token=" . urlencode($token) . "&erro=" . urlencode('As senhas não coincidem.'));
             exit;
         }
 
         $this->usuarioModel->redefinirSenha($usuario['id'], $novaSenha, $token);
 
-        header("Location: /CapitaoMuzzarela/public/api/?action=admin-login&sucesso=" . urlencode('Senha redefinida com sucesso! Faça login.'));
+        header("Location: " . BASE_URL . "/public/api/?action=admin-login&sucesso=" . urlencode('Senha redefinida com sucesso! Faça login.'));
         exit;
     }
 
@@ -923,21 +923,21 @@ class AdminController
 
     private function redirecionar(string $action): void
     {
-        header("Location: /CapitaoMuzzarela/public/api/?action={$action}");
+        header("Location: " . BASE_URL . "/public/api/?action={$action}");
         exit;
     }
 
     private function redirecionarComErro(string $action, string $erro): void
     {
         $msg = urlencode($erro);
-        header("Location: /CapitaoMuzzarela/public/api/?action={$action}&erro={$msg}");
+        header("Location: " . BASE_URL . "/public/api/?action={$action}&erro={$msg}");
         exit;
     }
 
     private function redirecionarComSucesso(string $action, string $msg): void
     {
         $msg = urlencode($msg);
-        header("Location: /CapitaoMuzzarela/public/api/?action={$action}&sucesso={$msg}");
+        header("Location: " . BASE_URL . "/public/api/?action={$action}&sucesso={$msg}");
         exit;
     }
 }

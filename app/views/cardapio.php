@@ -7,17 +7,17 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="/CapitaoMuzzarela/public/css/cardapio.css">
+    <link rel="stylesheet" href="<?= BASE_URL ?>/public/css/cardapio.css">
     <title>Cardápio — Capitão Muzzarela</title>
 </head>
 <body>
 
     <!-- Cabeçalho -->
     <header class="cardapio-header">
-        <a href="/CapitaoMuzzarela/" class="cardapio-voltar" aria-label="Voltar ao site">← Voltar</a>
+        <a href="<?= BASE_URL ?>/" class="cardapio-voltar" aria-label="Voltar ao site">← Voltar</a>
         <div class="cardapio-header__centro">
             <img
-                src="/CapitaoMuzzarela/public/images/capitaoLogo-Header.webp"
+                src="<?= BASE_URL ?>/public/images/capitaoLogo-Header.webp"
                 alt="Logo Capitão Muzzarela"
                 class="cardapio-header__logo"
             >

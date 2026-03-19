@@ -19,6 +19,8 @@ ul {
 }
 
 .btn-delivery {
+  text-align: center;
+  text-decoration: none;
   width: 18vw;
   gap: 16px;
   background-color: #c2282d;
@@ -27,6 +29,7 @@ ul {
   outline: none;
   font-size: 20px;
   display: flex;
+  justify-content: center;
   align-items: center;
   padding: 10px 20px;
   border-radius: 28px;
@@ -585,6 +588,8 @@ footer {
     .sessaoReserva {
         height: 60vh;
 
+        background-position: center;
+
         h2 { font-size: 28px; }
     }
 
@@ -623,6 +628,7 @@ footer {
             justify-content: center;
 
             img { width: 120px; height: 120px; }
+            .divisorFooter { display: none; } 
         }
 
         .info {
@@ -713,6 +719,8 @@ footer {
     .sessaoReserva {
         height: 50vh;
 
+        background-position: center;
+
         h2 { font-size: 22px; text-align: center; padding: 0 1rem; }
     }
 
@@ -734,6 +742,7 @@ footer {
             gap: 2rem;
 
             .midia .redes img { width: 32px; }
+            .divisorFooter { display: none; } 
         }
     }
 }

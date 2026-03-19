@@ -74,7 +74,7 @@ require_once $root . '/app/controllers/AdminController.php';
 
 // ── Roteamento ────────────────────────────────────────────────────────────────
 // ── URL base do projeto (usada nas views para CSS, imagens e links)
-define('BASE_URL', '/CapitaoMuzzarela');
+define('BASE_URL', '');
 
 $action = $_GET['action'] ?? '';
 

@@ -59,10 +59,12 @@
                 Faça sua reserva agora
               </button>
 
-              <button class="btn-delivery">
-                <img src="public/images/pizza.svg" alt="Ícone de pizza" /> Link
-                para Delivery
-              </button>
+              <a href="https://www.ifood.com.br/delivery/cruzeiro-sp/capitao-muzzarela-centro"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="btn-delivery">
+                <img src="public/images/pizza.svg" alt="Ícone de pizza" /> Link para Delivery
+              </a>
             </div>
           </div>
 
@@ -95,9 +97,12 @@
               <img src="public/images/cardapioButton.svg" alt="Ícone de cardápio" />
               Acesse nosso cardápio completo
             </a>
-            <button class="btn-delivery">
-              <img src="public/images/pizza.svg" alt="Ícone de Pizza" /> Link para Delivery
-            </button>
+            <a href="https://www.ifood.com.br/delivery/cruzeiro-sp/capitao-muzzarela-centro"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="btn-delivery">
+              <img src="public/images/pizza.svg" alt="Ícone de pizza" /> Link para Delivery
+            </a>
           </div>
         </section>
 
@@ -154,9 +159,12 @@
                   <b>TEMPO DE ESPERA MÍNIMO</b>
                 </li>
               </ul>
-              <button class="btn-delivery">
-                <img src="public/images/pizza.svg" alt="Ícone de Pizza" /> Link para Delivery
-              </button>
+              <a href="https://www.ifood.com.br/delivery/cruzeiro-sp/capitao-muzzarela-centro"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="btn-delivery">
+                <img src="public/images/pizza.svg" alt="Ícone de pizza" /> Link para Delivery
+              </a>
             </div>
           </div>
         </section>
@@ -168,7 +176,7 @@
             <a href="public/api/?action=admin-login">
               <img src="public/images/capitaoLogo-Footer.webp" alt="Logo do Capitão Muzzarela" />
             </a>
-            <img src="public/images/divisorFooter.svg" alt="Divisor decorativo" />
+            <img src="public/images/divisorFooter.svg" alt="Divisor decorativo" class="divisorFooter" />
           </div>
           <div class="info">
             <div class="midia">

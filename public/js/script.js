@@ -4,7 +4,7 @@ gsap.registerPlugin(ScrollTrigger, ScrollSmoother, ScrollToPlugin, SplitText);
 // O efeito parallax do ScrollSmoother causa sobreposição de
 // elementos em mobile pois o layout não tem espaço para
 // absorver o deslocamento gerado pelo data-speed.
-const isMobile = window.innerWidth <= 768;
+const isMobile = window.innerWidth <= 840;
 
 if (isMobile) {
     // Remove o atributo data-speed de todos os elementos que o possuem
@@ -126,6 +126,21 @@ if (!isMobile) {
             markers: false,
             start: '0% 50%',
             end: '100% 45%',
+        },
+    });
+}
+else{
+    gsap.from('.sessaoGaleria img', {
+        y: 80,
+        opacity: 0,
+        stagger: 0.7,
+        filter: "blur(10px)", // Efeito de desfoque
+        scrollTrigger: {
+            trigger: '.sessaoGaleria',
+            markers: false,
+            start: '0% 80%',
+            end: '100% 65%',
+            scrub: true,
         },
     });
 }

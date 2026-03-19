@@ -11,10 +11,10 @@ declare(strict_types=1);
 class Database
 {
     // ── Configurações de conexão ─────────────────────────────────────────────
-    private const HOST    = 'localhost';
-    private const DBNAME  = 'capitaoMuzzarela_db';
-    private const USER    = 'root';       // ← altere para o usuário do seu banco
-    private const PASS    = 'root';           // ← altere para a senha do seu banco
+    private const HOST    = 'sql201.infinityfree.com';
+    private const DBNAME  = 'if0_41432527_capitaomuzzarela_db';
+    private const USER    = 'if0_41432527';       // ← altere para o usuário do seu banco
+    private const PASS    = 'capitaoMuzza001';           // ← altere para a senha do seu banco
     private const CHARSET = 'utf8mb4';
 
     /** @var Database|null Instância única (Singleton) */

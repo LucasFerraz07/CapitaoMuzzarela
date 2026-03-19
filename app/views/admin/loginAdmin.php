@@ -42,7 +42,7 @@
                         autocomplete="current-password">
                     <button type="submit">ENTRAR</button>
                 </form>
-                <a href="<?= BASE_URL ?>" class="homeButton">
+                <a href="<?= BASE_URL ?>/" class="homeButton">
                     Sair
                 </a>
             </div>

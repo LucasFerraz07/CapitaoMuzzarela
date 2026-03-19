@@ -22,7 +22,7 @@
             <span class="admin-header__usuario">
                 👤 <?= htmlspecialchars($_SESSION['admin_nome'] ?? 'Administrador', ENT_QUOTES, 'UTF-8') ?>
             </span>
-            <a href="/CapitaoMuzzarela/public/api/?action=admin-logout" class="admin-header__logout">Sair</a>
+            <a href="<?= BASE_URL ?>/public/api/?action=admin-logout" class="admin-header__logout">Sair</a>
         </nav>
     </header>
 
@@ -30,7 +30,7 @@
 
         <!-- Breadcrumb -->
         <nav class="admin-breadcrumb" aria-label="Breadcrumb">
-            <a href="/CapitaoMuzzarela/public/api/?action=admin-dashboard">Painel</a>
+            <a href="<?= BASE_URL ?>/public/api/?action=admin-dashboard">Painel</a>
             <span aria-hidden="true">›</span>
             <span aria-current="page">Reservas</span>
         </nav>
@@ -43,7 +43,7 @@
 
         <!-- Filtros -->
         <section class="admin-filtros" aria-label="Filtros de reserva">
-            <form method="GET" action="/CapitaoMuzzarela/public/api/" class="filtros-form">
+            <form method="GET" action="<?= BASE_URL ?>/public/api/" class="filtros-form">
                 <input type="hidden" name="action" value="admin-reservas">
 
                 <div class="filtro-grupo">
@@ -68,7 +68,7 @@
                 <button type="submit" class="btn-filtrar">Filtrar</button>
 
                 <?php if (!empty($filtroData) || !empty($filtroStatus)): ?>
-                    <a href="/CapitaoMuzzarela/public/api/?action=admin-reservas" class="btn-limpar">Limpar filtros</a>
+                    <a href="<?= BASE_URL ?>/public/api/?action=admin-reservas" class="btn-limpar">Limpar filtros</a>
                 <?php endif; ?>
             </form>
         </section>
@@ -113,7 +113,7 @@
 
                             <footer class="reserva-card__footer">
                                 <a
-                                    href="/CapitaoMuzzarela/public/api/?action=admin-reserva-detalhe&id=<?= (int) $r['id'] ?>"
+                                    href="<?= BASE_URL ?>/public/api/?action=admin-reserva-detalhe&id=<?= (int) $r['id'] ?>"
                                     class="btn-detalhe"
                                     aria-label="Ver detalhes da reserva #<?= (int) $r['id'] ?>"
                                 >
@@ -121,7 +121,7 @@
                                 </a>
 
                                 <?php if ($r['status'] === 'ativa'): ?>
-                                    <form method="POST" action="/CapitaoMuzzarela/public/api/?action=admin-reserva-status"
+                                    <form method="POST" action="<?= BASE_URL ?>/public/api/?action=admin-reserva-status"
                                           onsubmit="return confirm('Finalizar a reserva #<?= (int) $r['id'] ?>?')">
                                         <input type="hidden" name="id"     value="<?= (int) $r['id'] ?>">
                                         <input type="hidden" name="status" value="finalizada">

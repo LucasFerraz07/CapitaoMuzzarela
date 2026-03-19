@@ -30,7 +30,7 @@
                 ⚠️ <?= htmlspecialchars($erro, ENT_QUOTES, 'UTF-8') ?>
             </div>
             <p class="login-voltar">
-                <a href="/CapitaoMuzzarela/public/api/?action=admin-login">← Voltar para o login</a>
+                <a href="<?= BASE_URL ?>/public/api/?action=admin-login">← Voltar para o login</a>
             </p>
 
         <?php else: ?>
@@ -40,7 +40,7 @@
                 Escolha uma nova senha para sua conta.
             </p>
 
-            <form method="POST" action="/CapitaoMuzzarela/public/api/?action=admin-processar-redefinicao" class="login-form" novalidate>
+            <form method="POST" action="<?= BASE_URL ?>/public/api/?action=admin-processar-redefinicao" class="login-form" novalidate>
 
                 <input type="hidden" name="token" value="<?= htmlspecialchars($_GET['token'] ?? '', ENT_QUOTES, 'UTF-8') ?>">
 
@@ -75,7 +75,7 @@
             </form>
 
             <p class="login-voltar">
-                <a href="/CapitaoMuzzarela/public/api/?action=admin-login">← Voltar para o login</a>
+                <a href="<?= BASE_URL ?>/public/api/?action=admin-login">← Voltar para o login</a>
             </p>
 
             <script>

@@ -22,7 +22,7 @@
             <span class="admin-header__usuario">
                 👤 <?= htmlspecialchars($_SESSION['admin_nome'] ?? 'Administrador', ENT_QUOTES, 'UTF-8') ?>
             </span>
-            <a href="/CapitaoMuzzarela/public/api/?action=admin-logout" class="admin-header__logout">Sair</a>
+            <a href="<?= BASE_URL ?>/public/api/?action=admin-logout" class="admin-header__logout">Sair</a>
         </nav>
     </header>
 
@@ -30,7 +30,7 @@
 
         <!-- Breadcrumb -->
         <nav class="admin-breadcrumb" aria-label="Breadcrumb">
-            <a href="/CapitaoMuzzarela/public/api/?action=admin-dashboard">Painel</a>
+            <a href="<?= BASE_URL ?>/public/api/?action=admin-dashboard">Painel</a>
             <span aria-hidden="true">›</span>
             <span aria-current="page">Horários de Funcionamento</span>
         </nav>
@@ -111,7 +111,7 @@
                 <h2 id="modalHorarioTitulo">Editar Horário</h2>
                 <button class="modal-fechar" onclick="fecharModal()" aria-label="Fechar">&times;</button>
             </div>
-            <form method="POST" action="/CapitaoMuzzarela/public/api/?action=admin-horario-salvar" class="modal-form">
+            <form method="POST" action="<?= BASE_URL ?>/public/api/?action=admin-horario-salvar" class="modal-form">
                 <input type="hidden" name="id" id="horarioId">
 
                 <p class="modal-dia" id="modalDiaNome"></p>

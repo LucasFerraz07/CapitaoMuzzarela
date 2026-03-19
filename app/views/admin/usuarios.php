@@ -21,7 +21,7 @@
             <span class="admin-header__usuario">
                 👤 <?= htmlspecialchars($_SESSION['admin_nome'] ?? 'Administrador', ENT_QUOTES, 'UTF-8') ?>
             </span>
-            <a href="/CapitaoMuzzarela/public/api/?action=admin-logout" class="admin-header__logout">Sair</a>
+            <a href="<?= BASE_URL ?>/public/api/?action=admin-logout" class="admin-header__logout">Sair</a>
         </nav>
     </header>
 
@@ -29,7 +29,7 @@
 
         <!-- Breadcrumb -->
         <nav class="admin-breadcrumb" aria-label="Breadcrumb">
-            <a href="/CapitaoMuzzarela/public/api/?action=admin-dashboard">Painel</a>
+            <a href="<?= BASE_URL ?>/public/api/?action=admin-dashboard">Painel</a>
             <span aria-hidden="true">›</span>
             <span aria-current="page">Usuários</span>
         </nav>
@@ -108,19 +108,19 @@
                                 <?php if (!$ehLogado): ?>
 
                                     <a
-                                        href="/CapitaoMuzzarela/public/api/?action=admin-usuario-toggle&id=<?= (int) $u['id'] ?>"
+                                        href="<?= BASE_URL ?>/public/api/?action=admin-usuario-toggle&id=<?= (int) $u['id'] ?>"
                                         class="btn-acao <?= $ativo ? 'btn-acao--desativar' : 'btn-acao--ativar' ?>"
                                         onclick="return confirm('<?= $ativo ? 'Desativar este usuário?' : 'Ativar este usuário?' ?>')"
                                     ><?= $ativo ? 'Desativar' : 'Ativar' ?></a>
 
                                     <a
-                                        href="/CapitaoMuzzarela/public/api/?action=admin-usuario-redefinir-senha&id=<?= (int) $u['id'] ?>"
+                                        href="<?= BASE_URL ?>/public/api/?action=admin-usuario-redefinir-senha&id=<?= (int) $u['id'] ?>"
                                         class="btn-acao btn-acao--senha"
                                         onclick="return confirm('Enviar e-mail de redefinição de senha para <?= htmlspecialchars($u['nome'], ENT_QUOTES, 'UTF-8') ?>?')"
                                     >Redefinir Senha</a>
 
                                     <a
-                                        href="/CapitaoMuzzarela/public/api/?action=admin-usuario-excluir&id=<?= (int) $u['id'] ?>"
+                                        href="<?= BASE_URL ?>/public/api/?action=admin-usuario-excluir&id=<?= (int) $u['id'] ?>"
                                         class="btn-acao btn-acao--excluir"
                                         onclick="return confirm('Excluir permanentemente o usuário <?= htmlspecialchars($u['nome'], ENT_QUOTES, 'UTF-8') ?>? Esta ação não pode ser desfeita.')"
                                     >Excluir</a>
@@ -150,7 +150,7 @@
                 <h2 id="modalUsuarioTitulo">Novo Usuário</h2>
                 <button class="modal-fechar" onclick="fecharModal()" aria-label="Fechar">&times;</button>
             </div>
-            <form method="POST" action="/CapitaoMuzzarela/public/api/?action=admin-usuario-salvar" class="modal-form">
+            <form method="POST" action="<?= BASE_URL ?>/public/api/?action=admin-usuario-salvar" class="modal-form">
                 <input type="hidden" name="id" id="usuarioId" value="0">
 
                 <div class="campo-grupo">

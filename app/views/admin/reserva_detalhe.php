@@ -22,7 +22,7 @@
             <span class="admin-header__usuario">
                 👤 <?= htmlspecialchars($_SESSION['admin_nome'] ?? 'Administrador', ENT_QUOTES, 'UTF-8') ?>
             </span>
-            <a href="/CapitaoMuzzarela/public/api/?action=admin-logout" class="admin-header__logout">Sair</a>
+            <a href="<?= BASE_URL ?>/public/api/?action=admin-logout" class="admin-header__logout">Sair</a>
         </nav>
     </header>
 
@@ -30,9 +30,9 @@
 
         <!-- Breadcrumb -->
         <nav class="admin-breadcrumb" aria-label="Breadcrumb">
-            <a href="/CapitaoMuzzarela/public/api/?action=admin-dashboard">Painel</a>
+            <a href="<?= BASE_URL ?>/public/api/?action=admin-dashboard">Painel</a>
             <span aria-hidden="true">›</span>
-            <a href="/CapitaoMuzzarela/public/api/?action=admin-reservas">Reservas</a>
+            <a href="<?= BASE_URL ?>/public/api/?action=admin-reservas">Reservas</a>
             <span aria-hidden="true">›</span>
             <span aria-current="page">Reserva #<?= (int) $reserva['id'] ?></span>
         </nav>
@@ -48,7 +48,7 @@
                     </span>
                 </div>
 
-                <a href="/CapitaoMuzzarela/public/api/?action=admin-reservas" class="btn-voltar">
+                <a href="<?= BASE_URL ?>/public/api/?action=admin-reservas" class="btn-voltar">
                     ← Voltar para lista
                 </a>
             </header>
@@ -110,7 +110,7 @@
             <!-- Ações -->
             <?php if ($reserva['status'] === 'ativa'): ?>
                 <div class="reserva-detalhe__acoes">
-                    <form method="POST" action="/CapitaoMuzzarela/public/api/?action=admin-reserva-status"
+                    <form method="POST" action="<?= BASE_URL ?>/public/api/?action=admin-reserva-status"
                           onsubmit="return confirm('Tem certeza que deseja finalizar a reserva #<?= (int) $reserva['id'] ?>?')">
                         <input type="hidden" name="id"     value="<?= (int) $reserva['id'] ?>">
                         <input type="hidden" name="status" value="finalizada">

@@ -36,7 +36,7 @@ function escapeJs(string $valor): string
             <span class="admin-header__usuario">
                 👤 <?= htmlspecialchars($_SESSION['admin_nome'] ?? 'Administrador', ENT_QUOTES, 'UTF-8') ?>
             </span>
-            <a href="/CapitaoMuzzarela/public/api/?action=admin-logout" class="admin-header__logout">Sair</a>
+            <a href="<?= BASE_URL ?>/public/api/?action=admin-logout" class="admin-header__logout">Sair</a>
         </nav>
     </header>
 
@@ -44,7 +44,7 @@ function escapeJs(string $valor): string
 
         <!-- Breadcrumb -->
         <nav class="admin-breadcrumb" aria-label="Breadcrumb">
-            <a href="/CapitaoMuzzarela/public/api/?action=admin-dashboard">Painel</a>
+            <a href="<?= BASE_URL ?>/public/api/?action=admin-dashboard">Painel</a>
             <span aria-hidden="true">›</span>
             <span aria-current="page">Cardápio</span>
         </nav>
@@ -115,14 +115,14 @@ function escapeJs(string $valor): string
                                         >Editar</button>
 
                                         <a
-                                            href="/CapitaoMuzzarela/public/api/?action=admin-categoria-toggle&id=<?= (int) $cat['id'] ?>"
+                                            href="<?= BASE_URL ?>/public/api/?action=admin-categoria-toggle&id=<?= (int) $cat['id'] ?>"
                                             class="btn-acao btn-acao--toggle"
                                             aria-label="<?= $cat['ativo'] ? 'Desativar' : 'Ativar' ?> categoria <?= htmlspecialchars($cat['nome'], ENT_QUOTES, 'UTF-8') ?>"
                                         ><?= $cat['ativo'] ? 'Desativar' : 'Ativar' ?></a>
 
                                         <?php if ((int) $cat['total_produtos'] === 0): ?>
                                             <a
-                                                href="/CapitaoMuzzarela/public/api/?action=admin-categoria-excluir&id=<?= (int) $cat['id'] ?>"
+                                                href="<?= BASE_URL ?>/public/api/?action=admin-categoria-excluir&id=<?= (int) $cat['id'] ?>"
                                                 class="btn-acao btn-acao--excluir"
                                                 onclick="return confirm('Excluir a categoria \'<?= escapeJs(htmlspecialchars($cat['nome'], ENT_QUOTES, 'UTF-8')) ?>\'?')"
                                                 aria-label="Excluir categoria <?= htmlspecialchars($cat['nome'], ENT_QUOTES, 'UTF-8') ?>"
@@ -217,7 +217,7 @@ function escapeJs(string $valor): string
                                         >Editar</button>
 
                                         <a
-                                            href="/CapitaoMuzzarela/public/api/?action=admin-produto-excluir&id=<?= (int) $p['id'] ?>"
+                                            href="<?= BASE_URL ?>/public/api/?action=admin-produto-excluir&id=<?= (int) $p['id'] ?>"
                                             class="btn-acao btn-acao--excluir"
                                             onclick="return confirm('Excluir o produto \'<?= escapeJs(htmlspecialchars($p['nome'], ENT_QUOTES, 'UTF-8')) ?>\'?')"
                                             aria-label="Excluir produto <?= htmlspecialchars($p['nome'], ENT_QUOTES, 'UTF-8') ?>"
@@ -250,7 +250,7 @@ function escapeJs(string $valor): string
                 <h2 id="modalCategoriaTitulo">Categoria</h2>
                 <button class="modal-fechar" onclick="fecharModalCategoria()" aria-label="Fechar">&times;</button>
             </div>
-            <form method="POST" action="/CapitaoMuzzarela/public/api/?action=admin-categoria-salvar" class="modal-form">
+            <form method="POST" action="<?= BASE_URL ?>/public/api/?action=admin-categoria-salvar" class="modal-form">
                 <input type="hidden" name="id" id="categoriaId">
 
                 <div class="campo-grupo">
@@ -275,7 +275,7 @@ function escapeJs(string $valor): string
                 <h2 id="modalProdutoTitulo">Produto</h2>
                 <button class="modal-fechar" onclick="fecharModalProduto()" aria-label="Fechar">&times;</button>
             </div>
-            <form method="POST" action="/CapitaoMuzzarela/public/api/?action=admin-produto-salvar" enctype="multipart/form-data" class="modal-form">
+            <form method="POST" action="<?= BASE_URL ?>/public/api/?action=admin-produto-salvar" enctype="multipart/form-data" class="modal-form">
                 <input type="hidden" name="id" id="produtoId">
 
                 <div class="campo-linha">

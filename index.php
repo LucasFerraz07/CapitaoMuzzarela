@@ -133,7 +133,7 @@
         </section>
 
         <section class="sessaoIFood" id="sessaoIFood">
-          <img src="public/images/ondaGaleira.svg" alt="" class="ondaGaleria"/>
+          <img src="public/images/ondaGaleira.svg" alt="" class="ondaGaleria" />
           <div class="conteudoSessao">
             <div class="heroiIFood">
               <img
@@ -182,8 +182,13 @@
             <div class="midia">
               <h3>REDES SOCIAIS</h3>
               <ul class="redes">
-                <li><img src="public/images/igFooter.svg" alt="Instagram" /></li>
-                <li><img src="public/images/wppFooter.svg" alt="WhatsApp" /></li>
+                <li><a href="https://www.instagram.com/capmuzzarela/" target="_blank" rel="noopener noreferrer">
+                    <img src="public/images/igFooter.svg" alt="Instagram" />
+                  </a></li>
+
+                <li><a href="https://wa.me/5511999999999" target="_blank" rel="noopener noreferrer">
+                  <img src="public/images/wppFooter.svg" alt="WhatsApp" />
+                </a></li>
               </ul>
             </div>
             <div class="endereco">

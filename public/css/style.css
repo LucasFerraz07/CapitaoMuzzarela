@@ -360,6 +360,9 @@ header {
 .sessaoIFood {
   display: flex;
   flex-direction: column;
+  .ondaGaleria{
+    width: 100%;
+  }
 
   .conteudoSessao {
     display: flex;

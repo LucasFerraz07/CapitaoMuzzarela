@@ -133,7 +133,7 @@
         </section>
 
         <section class="sessaoIFood" id="sessaoIFood">
-          <img src="public/images/ondaGaleira.svg" alt="" />
+          <img src="public/images/ondaGaleira.svg" alt="" class="ondaGaleria"/>
           <div class="conteudoSessao">
             <div class="heroiIFood">
               <img

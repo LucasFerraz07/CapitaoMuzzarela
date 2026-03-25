@@ -4,6 +4,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Pizzaria número 1 de Cruzeiro-SP. Sabores tradicionais, ambiente aconchegante e entrega via iFood. Reserve sua mesa ou peça agora!">
   <link rel="icon" type="image/x-icon" href="public/images/favicon.png">
   <!-- Flatpickr -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
